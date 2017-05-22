@@ -1,0 +1,142 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html">
+<link rel="import" href="../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
+<link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
+ <link rel="import" href="../bower_components/neon-animation/neon-animatable.html">
+<link rel="import" href="../bower_components/neon-animation/neon-animated-pages.html">
+<link rel="import" href="../bower_components/neon-animation/neon-animations.html">
+<link rel="import" href="../bower_components/neon-animation/animations/fade-in-animation.html">
+<link rel="import" href="../bower_components/neon-animation/animations/fade-out-animation.html">
+  <link rel="import" href="../bower_components/neon-animation/neon-animatable-behavior.html">
+
+<link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="../bower_components/app-route/app-route.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="my-icons.html">
+
+<link rel="lazy-import" href="my-home.html">
+<link rel="lazy-import" href="my-login.html">
+<link rel="lazy-import" href="my-register.html">
+<link rel="lazy-import" href="my-plan.html">
+<link rel="lazy-import" href="my-payment.html">
+<link rel="lazy-import" href="my-dashboard.html">
+<link rel="lazy-import" href="my-inventory.html">
+<link rel="lazy-import" href="my-add-inventory.html">
+<link rel="lazy-import" href="my-orders.html">
+<link rel="lazy-import" href="my-ship-order.html">
+<link rel="lazy-import" href="my-returns.html">
+<link rel="lazy-import" href="my-settings.html">
+<link rel="lazy-import" href="my-update-billing.html">
+<link rel="lazy-import" href="my-update-invoices.html">
+<link rel="lazy-import" href="my-view404.html">
+
+<dom-module id="my-app">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+    </style>
+
+    <app-location route="{{route}}"></app-location>
+    <app-route
+        route="{{route}}"
+        pattern="[[rootPattern]]:page"
+        data="{{routeData}}"
+        tail="{{subroute}}"></app-route>
+
+        <neon-animated-pages
+            selected="[[page]]"
+            attr-for-selected="name"
+            fallback-selection="view404"
+            role="main">
+          <my-home name="home"></my-home>
+          <my-login name="login"></my-login>
+          <my-register name="register"></my-register>
+          <my-plan name="plan"></my-plan>
+          <my-payment name="payment"></my-payment>
+          <my-dashboard name="dashboard"></my-dashboard>
+          <my-inventory name="inventory"></my-inventory>
+          <my-add-inventory name="add-inventory"></my-add-inventory>
+          <my-orders name="orders"></my-orders>
+          <my-ship-orders name="ship-orders"></my-ship-orders>
+          <my-returns name="returns"></my-returns>
+          <my-settings name="settings"></my-settings>
+          <my-update-billing name="update-billing"></my-update-billing>
+          <my-update-invoices name="update-invoices"></my-update-invoices>
+          <my-view404 name="view404"></my-view404>
+        </neon-animated-pages>
+
+  </template>
+
+  <script>
+    class MyApp extends Polymer.Element {
+
+      static get is() { return 'my-app'; }
+
+      static get properties() {
+        return {
+          page: {
+            type: String,
+            reflectToAttribute: true,
+            observer: '_pageChanged',
+          },
+          rootPattern: String,
+          routeData: Object,
+          subroute: String,
+        };
+      }
+
+      static get observers() {
+        return [
+          '_routePageChanged(routeData.page)',
+        ];
+      }
+
+      constructor() {
+        super();
+
+        // Get root pattern for app-route, for more info about `rootPath` see:
+        // https://www.polymer-project.org/2.0/docs/upgrade#urls-in-templates
+        this.rootPattern = (new URL(this.rootPath)).pathname;
+      }
+
+      _routePageChanged(page) {
+        // Polymer 2.0 will call with `undefined` on initialization.
+        // Ignore until we are properly called with a string.
+        if (page === undefined) {
+          return;
+        }
+
+        // If no page was found in the route data, page will be an empty string.
+        // Deault to 'view1' in that case.
+        this.page = page || 'home';
+
+        // // Close a non-persistent drawer when the page & route are changed.
+        // if (!this.$.drawer.persistent) {
+        //   this.$.drawer.close();
+        // }
+      }
+
+      _pageChanged(page) {
+        // Load page import on demand. Show 404 page if fails
+        var resolvedPageUrl = this.resolveUrl('my-' + page + '.html');
+        Polymer.importHref(
+            resolvedPageUrl,
+            null,
+            this._showPage404.bind(this),
+            true);
+      }
+
+      
+
+      _showPage404() {
+        this.page = 'view404';
+      }
+    }
+
+    window.customElements.define(MyApp.is, MyApp);
+  </script>
+</dom-module>

@@ -1,0 +1,92 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">
+<link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="../bower_components/neon-animation/neon-animations.html">
+<link rel="import" href="../bower_components/neon-animation/animations/fade-in-animation.html">
+<link rel="import" href="../bower_components/neon-animation/animations/fade-out-animation.html">
+<link rel="import" href="../bower_components/neon-animation/neon-animatable-behavior.html">
+<link rel="import" href="../bower_components/neon-animation/neon-animation-runner-behavior.html">
+<link rel="import" href="../bower_components/neon-animation/web-animations.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="my-home">
+<template>
+    <style include="shared-styles">
+    :host {
+        display: block;
+        padding: 10px;
+    }
+    .mobile-button-width{
+        width: 100%;
+    }
+    </style>
+    <iron-media-query query="(min-width: 600px)" query-matches="{{mobileScreen}}"></iron-media-query>
+    <app-location route="{{route}}"></app-location>
+    <img src="/images/jetscape.svg" class="logo noselect">
+    <div class="container" id="container">
+    <h2>Have you joined the club yet?</h2>
+    <ul>
+        <li>Join over 6,000 Jetscape members</li>
+        <li>Start selling on JET today</li>
+        <li>Exclusive access to online marking masterminds</li>
+        <li>Claim your share of a 2 billion dolar a year market</li>
+        <li>Take your business to the next level</li>
+    </ul>
+    <button type="button" class$="big-button noselect {{buttonWidth}}"  on-click="_register">Register</button>
+    <button type="button" class="little-button noselect" on-click="_login">Login</button>
+    </div>
+</template>
+
+<script>
+    class MyHome extends Polymer.mixinBehaviors([Polymer.NeonAnimationRunnerBehavior, Polymer.NeonAnimatableBehavior], Polymer.Element) {
+
+        static get is() { return 'my-home'; }
+
+        static get properties() {
+            return {
+            mobileScreen: {
+                type: String,
+                observer: '_mobile'
+            },
+            buttonWidth:{
+                type: String,
+                value:'mobile-button-width'
+            },
+            animationConfig: {
+            value: function() {
+                return {
+                'entry': {
+                    name: 'fade-in-animation',
+                    node: this,
+                    nodeDelay: 500,
+                    timing:{duration:200}
+                },
+                'exit': {
+                    name: 'fade-out-animation',
+                    node: this,
+                    nodeDelay: 500,
+                    timing:{duration:200}
+                }
+                }
+            }
+            }
+        };
+    }
+
+        _register(){
+            this.set('route.path', 'register/'); 
+        } 
+        _login(){
+            this.set('route.path', 'login/'); 
+        }
+        _mobile(){
+            if(this.mobileScreen == true){
+            this.buttonWidth = 'desktop-button-width'
+            } else {
+            this.buttonWidth = 'mobile-button-width'
+            }
+        } 
+
+    } window.customElements.define(MyHome.is, MyHome);
+</script>
+</dom-module>

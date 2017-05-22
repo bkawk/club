@@ -1,0 +1,25 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="components/jetscape-navigation.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="my-returns">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+
+        padding: 10px;
+      }
+    </style>
+
+<jetscape-navigation></jetscape-navigation>
+  </template>
+
+  <script>
+    class MyReturns extends Polymer.Element {
+      static get is() { return 'my-returns'; }
+    }
+
+    window.customElements.define(MyReturns.is, MyReturns);
+  </script>
+</dom-module>

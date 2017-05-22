@@ -1,0 +1,45 @@
+{
+  "entrypoint": "index.html",
+  "shell": "src/my-app.html",
+  "fragments": [
+    "src/my-home.html",
+    "src/my-login.html",
+    "src/my-register.html",
+    "src/my-plan.html",
+    "src/my-payment.html",
+    "src/my-dashboard.html",
+    "src/my-inventory.html",
+    "src/my-add-inventory.html",
+    "src/my-orders.html",
+    "src/my-ship-order.html",
+    "src/my-returns.html",
+    "src/my-settings.html",
+    "src/my-update-billing.html",
+    "src/my-update-invoices.html",
+    "src/my-view404.html"
+  ],
+  "sources": [
+    "src/**/*",
+    "images/**/*",
+    "bower.json"
+  ],
+  "extraDependencies": [
+    "manifest.json",
+    "bower_components/webcomponentsjs/*.js"
+  ],
+  "builds": [
+  {
+    "name": "default",
+    "js": {"minify": true},
+    "css": {"minify": true},
+    "html": {"minify": true},
+    "bundle": true,
+    "addServiceWorker": true,
+    "addPushManifest": true,
+    "insertPrefetchLinks": true
+  }
+],
+  "lint": {
+    "rules": ["polymer-2"]
+  }
+}

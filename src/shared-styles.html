@@ -1,0 +1,101 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+<!-- shared styles for all views -->
+<dom-module id="shared-styles">
+  <template>
+    <style>
+    :host {
+      --big-button-background-color: #979797;
+      --big-button-color: #FFFFFF;
+      --little-button-background-color: #FFFFFF;
+      --little-button-color: #A6A6A6;
+      --heading-color: #828282;
+      --paper-input-color: #6d6d6d;
+    }
+    h2{
+      color: var(--heading-color);
+    }
+    button{
+      border: 0;
+      outline:none;
+      cursor: pointer;
+      margin: 18px 0 0 0;
+      overflow: hidden;
+      border-radius: 2px;
+      box-shadow: 0 2px 4px 0 rgba(0,0,0,0.05);
+    }
+    paper-input{
+      margin-bottom: 20px;
+      --paper-input-container-underline: { border-bottom: 1px solid var(--paper-input-color); }
+      --paper-input-container-underline-focus: { color: var(--paper-input-color) }
+      --paper-input-container-input-color: var(--paper-input-color);
+      --paper-input-container-input: { font-size: 21px; font-weight:1; color: black }
+      --paper-input-container-color: var(--paper-input-color);
+      --paper-input-container-focus-color: var(--paper-input-color);
+    }
+    .error{
+      display: block;
+      height: 20px;
+      width: 200px;
+    }
+    .big-button{
+      position: relative;
+      font-size: 14px;
+      font-weight: 600;
+      height: 60px;
+      display: block;
+      padding: 0 100px 0 100px;
+      margin-top: 18px;
+      color: var(--big-button-color);
+      background-color: var(--big-button-background-color);
+    }
+    .little-button{
+      position: relative;
+      height: 30px;
+      font-weight: 600;
+      display: block;
+      padding: 0 20px 0 20px;
+      color: var(--little-button-color);
+      background-color: var(--little-button-background-color)
+    }
+    .logo{
+      width: 150px;
+      margin: 18px;
+    }
+    .noselect{
+      -webkit-user-select: none;  
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;   
+    }
+    .nav-list {
+      margin: 0 20px;
+    }
+    .nav-list a {
+      display: block;
+      padding: 0 16px;
+      text-decoration: none;
+      color: var(--app-secondary-color);
+      line-height: 40px;
+    }
+    .nav-list a.iron-selected {
+      color: black;
+      font-weight: bold;
+    }
+    .container{
+      padding: 0 18px 0 18px;
+      margin: 0 auto;
+      max-width: 450px;
+    }
+    paper-spinner-lite {
+      --paper-spinner-stroke-width: 1px;
+      --paper-spinner-color: white;
+      width:10px;
+      height:10px;
+      font-size:10px;
+    }
+
+
+    </style>
+  </template>
+</dom-module>
