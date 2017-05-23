@@ -1,4 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-ripple/paper-ripple.html">
 <link rel="import" href="components/jetscape-navigation.html">
 <link rel="import" href="shared-styles.html">
 
@@ -7,13 +9,127 @@
     <style include="shared-styles">
       :host {
         display: block;
-
         padding: 10px;
+        height: 100vh;
+        @apply(--layout-horizontal);
+        @apply(--layout-wrap);
+      }
+      .main{
+        @apply(--layout-flex);
+        min-width: 200px;
+      }
+      .header{
+        height: 120px;
+        @apply(--layout-horizontal);
+        @apply(--layout-end-justified);
+      }
+      .big-button{
+        margin: 18px;
+        max-width: 200px;
+        padding: 0 36px 0 36px;
+        height: 40px;
+      }
+      .name{
+        min-width:40px;
+        width:40px;
+        white-space: nowrap; 
+        overflow: hidden; 
+        text-overflow:ellipsis;
+      }
+      .fixed-sku{
+        padding-right: 5px;
+        width: 40px;
+        max-width: 120px;
+        min-width: 40px;
+        white-space: nowrap; 
+        overflow: hidden; 
+        text-overflow:ellipsis;
+      }
+      .fixed-small{
+        max-width: 50px;
+        min-width: 50px;
+      }
+      .fixed-status{
+        padding-right: 5px;
+        max-width: 90px;
+        min-width: 90px;
+        min-width: 40px;
+        white-space: nowrap; 
+        overflow: hidden; 
+        text-overflow:ellipsis;
       }
     </style>
 
 
 <jetscape-navigation></jetscape-navigation>
+<div class="main">
+  <div class="header">
+      <button type="button" class="big-button noselect"  on-click="_register">
+      Returns
+      <paper-ripple></paper-ripple>
+    </button>
+  </div>
+  <div class="body">
+    
+    <div class="search-area">
+      <div class="seach-box"><paper-input label="Search" no-label-float></paper-input></div>
+      <button class="grid-button">
+        Search
+        <paper-ripple></paper-ripple>
+      </button>
+    </div>
+   
+    <div class="grid-area">
+      <div class="grid-title">
+        <div class="fixed-sku">Order N<sup>o</sup></div>
+        <div class="fixed-status">Status</div>
+        <div class="fixed-small">Value</div>
+        <div class="name">Customer</div>
+      </div>
+      <div class=" grid-blank">
+      </div>
+    </div>
+
+    <div class="grid-area">
+      <div class="grid-line">
+        <div class="fixed-sku">491302842324864</div>
+        <div class="fixed-status">Acknowledged</div>
+        <div class="fixed-small">$34.00</div>
+        <div class="name">Name is really too long to fit on this line</div>
+      </div>
+     <button class="grid-button">
+        Ship
+        <paper-ripple></paper-ripple>
+      </button>
+    </div>
+    
+    <div class="grid-area">
+      <div class="grid-line">
+        <div class="fixed-sku">491302842324864</div>
+        <div class="fixed-status">Acknowledged</div>
+        <div class="fixed-small">$34.00</div>
+        <div class="name">Name is really too long to fit on this line</div>
+      </div>
+     <button class="grid-button">
+        Ship
+        <paper-ripple></paper-ripple>
+      </button>
+    </div>
+
+    <div class="grid-area">
+      <div class="grid-line">
+        <div class="fixed-sku">491302842324864</div>
+        <div class="fixed-status">Acknowledged</div>
+        <div class="fixed-small">$34.00</div>
+        <div class="name">Name is really too long to fit on this line</div>
+      </div>
+     <button class="grid-button">
+        Ship
+        <paper-ripple></paper-ripple>
+      </button>
+    </div>
+  </div>
+</div>
   </template>
 
   <script>

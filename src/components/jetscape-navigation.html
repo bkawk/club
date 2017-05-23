@@ -9,18 +9,19 @@
       :host {
         display: block;
         padding: 10px;
+        max-width: 185px;
       }
+
     </style>
 
     <app-location route="{{route}}"></app-location>
     <img src="/images/jetscape.svg" class="logo">
-    <iron-selector selected="[[route.path]]" attr-for-selected="name" class="nav-list" role="navigation">
-      <a name="/dashboard/" href="dashboard/">Dashboard</a>
-      <a name="/inventory/" href="inventory/">Inventory</a>
-      <a name="/orders/" href="orders/">Orders</a>
-      <a name="/returns/" href="returns/">Returns</a>
-      <a name="/settings/" href="settings/">Settings</a>
-    </iron-selector>
+      <iron-selector selected="[[route.path]]" attr-for-selected="name" class="nav-list" role="navigation">
+        <a name="/dashboard/" href="dashboard/">Dashboard</a>
+        <a name="/inventory/" href="inventory/">Inventory</a>
+        <a name="/orders/" href="orders/">Orders</a>
+        <a name="/settings/" href="settings/">Settings</a>
+      </iron-selector>
 
   </template>
 

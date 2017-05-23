@@ -1,4 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-ripple/paper-ripple.html">
 <link rel="import" href="components/jetscape-navigation.html">
 <link rel="import" href="shared-styles.html">
 
@@ -7,12 +9,53 @@
     <style include="shared-styles">
       :host {
         display: block;
-
         padding: 10px;
+        height: 100vh;
+        @apply(--layout-horizontal);
+        @apply(--layout-wrap);
+      }
+      .main{
+        @apply(--layout-flex);
+        min-width: 200px;
+      }
+      .header{
+        height: 120px;
+        @apply(--layout-horizontal);
+        @apply(--layout-end-justified);
+      }
+      .big-button{
+        margin: 18px;
+        max-width: 200px;
+        padding: 0 36px 0 36px;
+        height: 40px;
+        margin-left: 0px;
       }
     </style>
 
 <jetscape-navigation></jetscape-navigation>
+<div class="main">
+  <div class="header">
+    
+    <button type="button" class="big-button noselect"  on-click="_register">
+      Log&nbspOut
+      <paper-ripple></paper-ripple>
+    </button>
+
+    <button type="button" class="big-button noselect"  on-click="_register">
+      Invoices
+      <paper-ripple></paper-ripple>
+    </button>
+
+    <button type="button" class="big-button noselect"  on-click="_register">
+      Billing
+      <paper-ripple></paper-ripple>
+    </button>
+
+  </div>
+  <div class="body">
+  
+  </div>
+</div>
   </template>
 
   <script>

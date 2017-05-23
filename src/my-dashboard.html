@@ -1,5 +1,4 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
-
 <link rel="import" href="components/jetscape-navigation.html">
 <link rel="import" href="shared-styles.html">
 
@@ -9,11 +8,87 @@
       :host {
         display: block;
         padding: 10px;
+        height: 100vh;
+        @apply(--layout-horizontal);
+        @apply(--layout-wrap);
+      }
+      .main{
+        @apply(--layout-flex);
+        min-width: 200px;
+      }
+      .header{
+        height: 70px;
+      }
+      .body{
+        @apply(--layout-horizontal);
+        @apply(--layout-wrap);
+      }
+      .box{
+        width: 120px;
+        height: 120px;
+        margin: 18px;
+        font-size: 12px;
+        text-align: center;
+        @apply(--layout-horizontal);
+        @apply(--layout-center);
+        @apply(--layout-wrap);
+      }
+      .inner{
+        width: 100px;
+      }
+      .number{
+        font-size: 60px;
+        font-weight: 900;
+        color: white;
+      }
+      .text{
+        font-weight: 400;
       }
     </style>
 
 <jetscape-navigation></jetscape-navigation>
+<div class="main">
+  <div class="header"></div>
+  <div class="body">
+      
+      <div class="box">
+        <div class="inner">
+          <div class="number">34</div>
+          <div class="text">Waiting to ship</div>
+        </div>
+      </div>
 
+      <div class="box">
+        <div class="inner">
+          <div class="number">316</div>
+          <div class="text">Active Products</div>
+        </div>
+      </div>
+
+      <div class="box">
+        <div class="inner">
+          <div class="number">17</div>
+          <div class="text">Return Request</div>
+        </div>
+      </div>
+
+      <div class="box">
+        <div class="inner">
+          <div class="number">1</div>
+          <div class="text">Without Inventory</div>
+        </div>
+      </div>
+
+      <div class="box">
+        <div class="inner">
+          <div class="number">4</div>
+          <div class="text">Return Price</div>
+        </div>
+      </div>
+
+  </div>
+
+</div>
 
 
   </template>
