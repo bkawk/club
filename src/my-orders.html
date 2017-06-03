@@ -1,6 +1,7 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../bower_components/paper-ripple/paper-ripple.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="components/jetscape-navigation.html">
 <link rel="import" href="shared-styles.html">
 
@@ -23,7 +24,7 @@
         @apply(--layout-horizontal);
         @apply(--layout-end-justified);
       }
-      .big-button{
+      .top-button{
         margin: 18px;
         max-width: 200px;
         padding: 0 36px 0 36px;
@@ -60,11 +61,22 @@
       }
     </style>
 
+    <iron-ajax
+      id="ajax"
+      method="GET"
+      url="https://api.jetscape.club/orders"
+      headers='{"Content-Type": "application/json"}' 
+      loading="{{loading}}"
+      handle-as="json"
+      params="{{getParams}}"
+      on-response="_handleResponse"
+      debounce-duration="300">
+    </iron-ajax>
 
 <jetscape-navigation></jetscape-navigation>
 <div class="main">
   <div class="header">
-      <button type="button" class="big-button noselect"  on-click="_register">
+      <button type="button" class="big-button top-button noselect"  on-click="_register">
       Returns
       <paper-ripple></paper-ripple>
     </button>
@@ -133,10 +145,48 @@
   </template>
 
   <script>
-    class MyOrders extends Polymer.Element {
+    class MyOrders extends Polymer.mixinBehaviors([Polymer.NeonAnimationRunnerBehavior, Polymer.NeonAnimatableBehavior], Polymer.Element) {
       static get is() { return 'my-orders'; }
-    }
+    
+      static get properties() {
+        return {
+          animationConfig: {
+            value: function() {
+              return {
+                'entry': {
+                  name: 'fade-in-animation',
+                  node: this,
+                  nodeDelay: 300,
+                  timing:{duration:300}
+                },
+                'exit': {
+                  name: 'fade-out-animation',
+                  node: this,
+                  nodeDelay: 300,
+                  timing:{duration:300}
+                }
+              }
+            }
+          }
+        };
+      }
+      
+      connectedCallback(){
+        super.connectedCallback();
+        this._getOrders()
+      }
 
-    window.customElements.define(MyOrders.is, MyOrders);
+      _getOrders(){
+        setInterval(()=>{ 
+            this.getParams = {jwttoken: localStorage.getItem("jwt")}
+            this.$.ajax.generateRequest();
+        }, 3000);
+      }
+
+    _handleResponse(e){
+      console.log(e.detail.response.orders)
+    }
+    
+    } window.customElements.define(MyOrders.is, MyOrders);
   </script>
 </dom-module>

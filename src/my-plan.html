@@ -1,4 +1,10 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/paper-ripple/paper-ripple.html">
+<link rel="import" href="../bower_components/paper-spinner/paper-spinner-lite.html">
 <link rel="import" href="shared-styles.html">
 
 <dom-module id="my-plan">
@@ -6,17 +12,130 @@
     <style include="shared-styles">
       :host {
         display: block;
-
         padding: 10px;
       }
+      .grid-title div{
+        text-align: center;
+      }
+      .grid-line div{
+        text-align: center;
+      }
+
+      .grid-line div img{
+        height: 14px;
+        display: block;
+        margin: 0 auto;
+      }
+      .grid-footer div{
+        text-align: center;
+        font-size: 13px;
+      }
+
+
     </style>
 
-    <div class="card">
-      <div class="circle">3</div>
-      <h1>View Three</h1>
-      <p>Modus commodo minimum eum te, vero utinam assueverit per eu.</p>
-      <p>Ea duis bonorum nec, falli paulo aliquid ei eum.Has at minim mucius aliquam, est id tempor laoreet.Pro saepe pertinax ei, ad pri animal labores suscipiantur.</p>
+    <iron-media-query query="(min-width: 600px)" query-matches="{{mobileScreen}}"></iron-media-query>
+    <app-location route="{{route}}"></app-location>
+    <img class="logo noselect" src="../images/jetscape.svg">
+    <div class="container" id="container">
+
+    <div class="grid-area">
+      <div class="grid-desc"></div>
+      <div class="grid-title">
+        <div>Free&nbspTrial</div>
+        <div>Startup</div>
+        <div>Business</div>
+      </div>
     </div>
+
+    <div class="grid-area">
+      <div class="grid-desc">Unlimited Products</div>
+      <div class="grid-line">
+        <div><img src="../images/tick.svg"></div>
+        <div><img src="../images/tick.svg"></div>
+        <div><img src="../images/tick.svg"></div>
+      </div>
+    </div>
+
+    <div class="grid-area">
+      <div class="grid-desc">Unlimited Images</div>
+      <div class="grid-line">
+        <div><img src="../images/tick.svg"></div>
+        <div><img src="../images/tick.svg"></div>
+        <div><img src="../images/tick.svg"></div>
+      </div>
+    </div>
+
+    <div class="grid-area">
+      <div class="grid-desc">Unlimited Orders</div>
+      <div class="grid-line">
+        <div><img src="../images/tick.svg"></div>
+        <div><img src="../images/tick.svg"></div>
+        <div><img src="../images/tick.svg"></div>
+      </div>
+    </div>
+
+    <div class="grid-area">
+      <div class="grid-desc">Reporting</div>
+      <div class="grid-line">
+        <div></div>
+        <div></div>
+        <div><img src="../images/tick.svg"></div>
+      </div>
+    </div>
+
+    <div class="grid-area">
+      <div class="grid-desc">CSV Upload</div>
+      <div class="grid-line">
+        <div></div>
+        <div></div>
+        <div><img src="../images/tick.svg"></div>
+      </div>
+    </div>
+
+    <div class="grid-area">
+      <div class="grid-desc">Support</div>
+      <div class="grid-line">
+        <div></div>
+        <div></div>
+        <div><img src="../images/tick.svg"></div>
+      </div>
+    </div>
+
+    <div class="grid-area">
+      <div class="grid-desc"></div>
+      <div class="grid-footer">
+        <div class="tiny">Free</br>30 days</div>
+        <div class="tiny">$30.00</br>pcm</div>
+        <div class="tiny">$90.00</br>pcm</div>
+      </div>
+    </div>
+
+    <div class="grid-area">
+      <div class="grid-desc"></div>
+      <div class="grid-footer">
+        <div class="tiny">
+          <button type="button" class="little-button noselect" on-click="_register">
+            Select
+            <paper-ripple></paper-ripple>
+          </button>
+        </div>
+        <div class="tiny">
+          <button type="button" class="little-button noselect" on-click="_register">
+            Select
+            <paper-ripple></paper-ripple>
+          </button>
+        </div>
+        <div class="tiny">
+          <button type="button" class="little-button noselect" on-click="_register">
+            Select
+            <paper-ripple></paper-ripple>
+          </button>
+        </div>
+      </div>
+    </div>
+
+
   </template>
 
   <script>

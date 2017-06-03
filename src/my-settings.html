@@ -23,7 +23,7 @@
         @apply(--layout-horizontal);
         @apply(--layout-end-justified);
       }
-      .big-button{
+      .top-button{
         margin: 18px;
         max-width: 200px;
         padding: 0 36px 0 36px;
@@ -36,17 +36,17 @@
 <div class="main">
   <div class="header">
     
-    <button type="button" class="big-button noselect"  on-click="_register">
+    <button type="button" class="big-button top-button noselect"  on-click="_register">
       Log&nbspOut
       <paper-ripple></paper-ripple>
     </button>
 
-    <button type="button" class="big-button noselect"  on-click="_register">
+    <button type="button" class="big-button top-button noselect"  on-click="_register">
       Invoices
       <paper-ripple></paper-ripple>
     </button>
 
-    <button type="button" class="big-button noselect"  on-click="_register">
+    <button type="button" class="big-button top-button noselect"  on-click="_register">
       Billing
       <paper-ripple></paper-ripple>
     </button>
@@ -54,15 +54,52 @@
   </div>
   <div class="body">
   
+      <div class="container" id="container">
+      <paper-input label="Email" value="{{email}}" class="noselect"></paper-input>
+      <paper-input label="Password"  type="password" value="{{password}}" class="noselect"></paper-input>
+      <paper-input label="Subscription Plan" value="{{subscription}}" class="noselect"></paper-input>
+      <paper-input label="JET API Key" value="{{apikey}}" class="noselect"></paper-input>
+      <paper-input label="JET API Secret"  type="password" value="{{apisecret}}" class="noselect"></paper-input>
+      <p class="error noselect">{{error}}</p>
+      <button type="button" class$="big-button noselect {{buttonWidth}}" on-click="_login">
+        Save <paper-spinner-lite active></paper-spinner-lite>
+        <paper-ripple></paper-ripple>
+      </button>
+
+    </div>
+
+
   </div>
 </div>
   </template>
 
   <script>
-    class MySettings extends Polymer.Element {
+    class MySettings extends Polymer.mixinBehaviors([Polymer.NeonAnimationRunnerBehavior, Polymer.NeonAnimatableBehavior], Polymer.Element) {
       static get is() { return 'my-settings'; }
-    }
+    
+      static get properties() {
+        return {
+          animationConfig: {
+            value: function() {
+              return {
+                'entry': {
+                  name: 'fade-in-animation',
+                  node: this,
+                  nodeDelay: 300,
+                  timing:{duration:300}
+                },
+                'exit': {
+                  name: 'fade-out-animation',
+                  node: this,
+                  nodeDelay: 300,
+                  timing:{duration:300}
+                }
+              }
+            }
+          }
+        };
+      }
 
-    window.customElements.define(MySettings.is, MySettings);
+    } window.customElements.define(MySettings.is, MySettings);
   </script>
 </dom-module>

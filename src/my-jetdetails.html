@@ -1,7 +1,7 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">
-<link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../bower_components/paper-ripple/paper-ripple.html">
 <link rel="import" href="../bower_components/paper-spinner/paper-spinner-lite.html">
@@ -9,7 +9,7 @@
 
 <link rel="import" href="shared-styles.html">
 
-<dom-module id="my-login">
+<dom-module id="my-jetdetails">
   <template>
     <style include="shared-styles">
       :host {
@@ -25,49 +25,61 @@
     <app-location route="{{route}}"></app-location>
     <img class="logo noselect" src="../images/jetscape.svg">
     <div class="container" id="container">
-      <paper-input label="Email" value="{{email}}" class="noselect"></paper-input>
-      <paper-input label="Password"  type="password" value="{{password}}" class="noselect"></paper-input>
-      <p class="error noselect">{{error}}</p>
-      <button type="button" class$="big-button noselect {{buttonWidth}}" on-click="_login">
-        Login <paper-spinner-lite active></paper-spinner-lite>
+      <paper-input label="Jet API User" value="{{jetapiuser}}" class="noselect"></paper-input>
+      <paper-input label="Jet API Secret" type="password" value="{{jetapisecret}}" class="noselect"></paper-input>
+        <p class="error noselect">{{error}}</p>
+      <button type="button" class$="big-button noselect {{buttonWidth}}" on-click="_save">
+        <template is="dom-if" if="{{!loading}}">Save</template> 
+        <template is="dom-if" if="{{loading}}"><paper-spinner-lite active></paper-spinner-lite></template> 
         <paper-ripple></paper-ripple>
       </button>
-      <button type="button" class="little-button noselect" on-click="_register">
-        Register
+      <button type="button" class="little-button noselect" on-click="_login">
+        Login
         <paper-ripple></paper-ripple>
       </button>
     </div>
- 
 
     <iron-ajax
       id="ajax"
-      url="https://api.jetscape.club/login/"
-      params='{"email":this.email, "password":this.password"}'
+      method="POST"
+      url="https://api.jetscape.club/jetdetails/"
+      headers='{"Content-Type": "application/json", "X-Requested-With":"XMLHttpRequest", "Authorization":"Basic user:pass"}'
+      loading="{{loading}}"
       handle-as="json"
+      body="{{postBody}}"
       on-response="_handleResponse"
       debounce-duration="300">
     </iron-ajax>
+
+
+
+
   </template>
 
   <script>
+  class MyJetDetails extends Polymer.mixinBehaviors([Polymer.NeonAnimationRunnerBehavior, Polymer.NeonAnimatableBehavior], Polymer.Element) {
 
+      static get is() { return 'my-jetdetails'; }
 
-   class MyLogin extends Polymer.mixinBehaviors([Polymer.NeonAnimationRunnerBehavior, Polymer.NeonAnimatableBehavior], Polymer.Element) {
-
-
-      static get is() { return 'my-login'; }
-
-      static get properties() {
-        return {
-          mobileScreen: {
-            type: String,
-            observer: '_mobile'
-          },
-          buttonWidth:{
-            type: String,
-            value:'mobile-button-width'
-          },
-          animationConfig: {
+        static get properties() {
+          return {
+            mobileScreen: {
+              type: String,
+              observer: '_mobile'
+            },
+            loading:{
+              type: Boolean,
+              value: false
+            },
+            postBody:{
+              type:Object,
+              value:{foo:"bar"}
+            },
+            buttonWidth:{
+              type: String,
+              value:'mobile-button-width'
+            },
+            animationConfig: {
             value: function() {
               return {
                 'entry': {
@@ -85,11 +97,12 @@
               }
             }
           }
-        };
-      }
+          };
+        }
     
         _handleResponse(e){
-          console.log(e);
+          var response = e.detail.response;
+          console.log(response)
         }
         _mobile(){
           if(this.mobileScreen == true){
@@ -98,30 +111,22 @@
             this.buttonWidth = 'mobile-button-width'
           }
         }
-        _register(){
-          this.set('route.path', 'register/'); 
+        _save(){
+            if(this.jetapiuser && this.jetapisecret){
+                this.error = ''
+                this.postBody = {jwttoken:localStorage.getItem("jwt"), jetapiuser: this.jetapiuser, jetapisecret: this.jetapisecret}
+                this.$.ajax.generateRequest();
+            } 
         } 
         _login(){
-          if(this.email){
-            var valid = this._validateEmail(this.email)
-            if(valid == false){
-              this.error = 'Email invalid'
-            } else {
-              this.error = ''
-              if(this.password){
-                this.error = ''
-                this.$.ajax.generateRequest();
-              } else {
-                this.error = 'Enter a password'
-              }
-            }
-          } 
-        }
+            this.set('route.path', 'login/'); 
+        } 
         _validateEmail(email) {
           var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
           return re.test(email);
         }
 
-} window.customElements.define(MyLogin.is, MyLogin);
+
+} window.customElements.define(MyJetDetails.is, MyJetDetails);
   </script>
 </dom-module>

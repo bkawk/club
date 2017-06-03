@@ -50,6 +50,14 @@
         @apply(--layout-horizontal);
         @apply(--layout-flex);
       }
+      .grid-footer{
+        margin-right: 9px;
+        padding: 18px 18px 0px 18px;
+        height: 23px;
+        display: block;
+        @apply(--layout-horizontal);
+        @apply(--layout-flex);
+      }
       .grid-line{
         background-color: #dedede;
         margin-right: 9px;
@@ -60,6 +68,13 @@
         @apply(--layout-flex);
       }
       .grid-title div{
+        @apply(--layout-flex);
+        display: block;
+        font-weight: 500;
+        font-size: 14px;
+      }
+
+      .grid-footer div{
         @apply(--layout-flex);
         display: block;
         font-weight: 500;
@@ -100,6 +115,16 @@
       .grid-blank{
         margin-top: 0px;
         width: 80px;
+      }
+
+      .grid-desc{
+        margin-top: 0px;
+        width: 120px;
+        font-size: 12px;
+        font-weight: 500;
+        margin-top: 12px;
+        text-align: right;
+        padding-right: 18px;
       }
 
     .error{

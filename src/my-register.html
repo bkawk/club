@@ -5,12 +5,7 @@
 <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../bower_components/paper-ripple/paper-ripple.html">
 <link rel="import" href="../bower_components/paper-spinner/paper-spinner-lite.html">
-<link rel="import" href="../bower_components/neon-animation/neon-animations.html">
-<link rel="import" href="../bower_components/neon-animation/animations/fade-in-animation.html">
-<link rel="import" href="../bower_components/neon-animation/animations/fade-out-animation.html">
-<link rel="import" href="../bower_components/neon-animation/neon-animatable-behavior.html">
-<link rel="import" href="../bower_components/neon-animation/neon-animation-runner-behavior.html">
-<link rel="import" href="../bower_components/neon-animation/web-animations.html">
+
 
 <link rel="import" href="shared-styles.html">
 
@@ -35,7 +30,8 @@
       <paper-input label="Confirm Password" type="password" value="{{confirmPassword}}" class="password" class="noselect"></paper-input>
         <p class="error noselect">{{error}}</p>
       <button type="button" class$="big-button noselect {{buttonWidth}}" on-click="_register">
-        Register <paper-spinner-lite active></paper-spinner-lite>
+        <template is="dom-if" if="{{!loading}}">Register</template> 
+        <template is="dom-if" if="{{loading}}"><paper-spinner-lite active></paper-spinner-lite></template> 
         <paper-ripple></paper-ripple>
       </button>
       <button type="button" class="little-button noselect" on-click="_login">
@@ -46,9 +42,12 @@
 
     <iron-ajax
       id="ajax"
-      url="https://api.jetscape.club/register/"
-      params='{"email":this.email, "password":this.password"}'
+      method="POST"
+      url="https://api.jetscape.club/register"
+      headers='{"Content-Type": "application/json"}' 
+      loading="{{loading}}"
       handle-as="json"
+      body="{{postBody}}"
       on-response="_handleResponse"
       debounce-duration="300">
     </iron-ajax>
@@ -66,6 +65,14 @@
               type: String,
               observer: '_mobile'
             },
+            loading:{
+              type: Boolean,
+              value: false
+            },
+            postBody:{
+              type:Object,
+              value:{foo:"bar"}
+            },
             buttonWidth:{
               type: String,
               value:'mobile-button-width'
@@ -76,14 +83,14 @@
                 'entry': {
                   name: 'fade-in-animation',
                   node: this,
-                  nodeDelay: 200,
-                  timing:{duration:200}
+                  nodeDelay: 300,
+                  timing:{duration:300}
                 },
                 'exit': {
                   name: 'fade-out-animation',
                   node: this,
-                  nodeDelay: 200,
-                  timing:{duration:200}
+                  nodeDelay: 300,
+                  timing:{duration:300}
                 }
               }
             }
@@ -92,7 +99,13 @@
         }
     
         _handleResponse(e){
-          console.log(e);
+          var response = e.detail.response;
+          if (response && response == "Email Already Exists"){
+            this.error = response
+          } else {
+            localStorage.setItem("jwt", e.detail.response.jwttoken);
+            this.set('route.path', 'jetdetails/'); 
+          }
         }
         _mobile(){
           if(this.mobileScreen == true){
@@ -109,6 +122,7 @@
               } else {
                 if(this.password == this.confirmPassword){
                   this.error = ''
+                  this.postBody = {password: this.password, email: this.email}
                   this.$.ajax.generateRequest();
                 } else {
                   this.error = 'Passwords dont match'

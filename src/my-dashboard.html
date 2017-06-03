@@ -1,5 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="components/jetscape-navigation.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="shared-styles.html">
 
 <dom-module id="my-dashboard">
@@ -24,7 +25,7 @@
         @apply(--layout-wrap);
       }
       .box{
-        width: 120px;
+        width: 150px;
         height: 120px;
         margin: 18px;
         font-size: 12px;
@@ -46,6 +47,20 @@
       }
     </style>
 
+
+    <iron-ajax
+      id="ajax"
+      method="GET"
+      url="https://api.jetscape.club/dashboard"
+      headers='{"Content-Type": "application/json"}' 
+      loading="{{loading}}"
+      handle-as="json"
+      params="{{getParams}}"
+      on-response="_handleResponse"
+      debounce-duration="300">
+    </iron-ajax>
+
+
 <jetscape-navigation></jetscape-navigation>
 <div class="main">
   <div class="header"></div>
@@ -53,38 +68,38 @@
       
       <div class="box">
         <div class="inner">
-          <div class="number">34</div>
+          <div class="number">{{orders}}</div>
           <div class="text">Waiting to ship</div>
         </div>
       </div>
 
       <div class="box">
         <div class="inner">
-          <div class="number">316</div>
-          <div class="text">Active Products</div>
+          <div class="number">{{items}}</div>
+          <div class="text">Active Listings</div>
         </div>
       </div>
 
       <div class="box">
         <div class="inner">
-          <div class="number">17</div>
+          <div class="number">{{returns}}</div>
           <div class="text">Return Request</div>
         </div>
       </div>
 
-      <div class="box">
+      <!--<div class="box">
         <div class="inner">
           <div class="number">1</div>
           <div class="text">Without Inventory</div>
         </div>
-      </div>
+      </div>-->
 
-      <div class="box">
+      <!--<div class="box">
         <div class="inner">
           <div class="number">4</div>
           <div class="text">Return Price</div>
         </div>
-      </div>
+      </div>-->
 
   </div>
 
@@ -94,10 +109,50 @@
   </template>
 
   <script>
-    class MyDashboard extends Polymer.Element {
+    class MyDashboard extends Polymer.mixinBehaviors([Polymer.NeonAnimationRunnerBehavior, Polymer.NeonAnimatableBehavior], Polymer.Element) {
       static get is() { return 'my-dashboard'; }
+    
+      static get properties() {
+        return {
+          animationConfig: {
+            value: function() {
+              return {
+                'entry': {
+                  name: 'fade-in-animation',
+                  node: this,
+                  nodeDelay: 300,
+                  timing:{duration:300}
+                },
+                'exit': {
+                  name: 'fade-out-animation',
+                  node: this,
+                  nodeDelay: 300,
+                  timing:{duration:300}
+                }
+              }
+            }
+          }
+        };
+      }
+
+    connectedCallback(){
+        super.connectedCallback();
+        this._getDashboard()
     }
 
-    window.customElements.define(MyDashboard.is, MyDashboard);
+    _getDashboard(){
+      setInterval(()=>{ 
+          this.getParams = {jwttoken: localStorage.getItem("jwt")}
+          this.$.ajax.generateRequest();
+      }, 3000);
+    }
+    _handleResponse(e){
+      this.orders = e.detail.response.orders
+      this.items = e.detail.response.items
+      this.returns = e.detail.response.returns
+    }
+
+    
+    } window.customElements.define(MyDashboard.is, MyDashboard);
   </script>
 </dom-module>

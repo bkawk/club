@@ -23,7 +23,7 @@
         @apply(--layout-horizontal);
         @apply(--layout-end-justified);
       }
-      .big-button{
+      .top-button{
         margin: 18px;
         max-width: 200px;
         padding: 0 36px 0 36px;
@@ -57,7 +57,7 @@
 <jetscape-navigation></jetscape-navigation>
 <div class="main">
   <div class="header">
-    <button type="button" class="big-button noselect"  on-click="_register">
+    <button type="button" class="big-button top-button noselect"  on-click="_register">
       Add Inventory
       <paper-ripple></paper-ripple>
     </button>
@@ -126,10 +126,32 @@
   </template>
 
   <script>
-    class MyInventory extends Polymer.Element {
+    class MyInventory extends Polymer.mixinBehaviors([Polymer.NeonAnimationRunnerBehavior, Polymer.NeonAnimatableBehavior], Polymer.Element) {
       static get is() { return 'my-inventory'; }
-    }
-
-    window.customElements.define(MyInventory.is, MyInventory);
+    
+      static get properties() {
+        return {
+          animationConfig: {
+            value: function() {
+              return {
+                'entry': {
+                  name: 'fade-in-animation',
+                  node: this,
+                  nodeDelay: 300,
+                  timing:{duration:300}
+                },
+                'exit': {
+                  name: 'fade-out-animation',
+                  node: this,
+                  nodeDelay: 300,
+                  timing:{duration:300}
+                }
+              }
+            }
+          }
+        };
+      }
+    
+    } window.customElements.define(MyInventory.is, MyInventory);
   </script>
 </dom-module>

@@ -1,12 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">
 <link rel="import" href="../bower_components/app-route/app-location.html">
-<link rel="import" href="../bower_components/neon-animation/neon-animations.html">
-<link rel="import" href="../bower_components/neon-animation/animations/fade-in-animation.html">
-<link rel="import" href="../bower_components/neon-animation/animations/fade-out-animation.html">
-<link rel="import" href="../bower_components/neon-animation/neon-animatable-behavior.html">
-<link rel="import" href="../bower_components/neon-animation/neon-animation-runner-behavior.html">
-<link rel="import" href="../bower_components/neon-animation/web-animations.html">
 <link rel="import" href="shared-styles.html">
 
 <dom-module id="my-home">
@@ -31,6 +25,10 @@
         <li>Exclusive access to online marking masterminds</li>
         <li>Claim your share of a 2 billion dolar a year market</li>
         <li>Take your business to the next level</li>
+        <li>All orders are approved automatically</li>
+        <li>Powerful inventory manager</li>
+        <li>Acuratly control product returns</li>
+        <li>Process orders like a pro</li>
     </ul>
     <button type="button" class$="big-button noselect {{buttonWidth}}"  on-click="_register">Register</button>
     <button type="button" class="little-button noselect" on-click="_login">Login</button>
@@ -58,14 +56,14 @@
                 'entry': {
                     name: 'fade-in-animation',
                     node: this,
-                    nodeDelay: 200,
-                    timing:{duration:200}
+                    nodeDelay: 300,
+                    timing:{duration:300}
                 },
                 'exit': {
                     name: 'fade-out-animation',
                     node: this,
-                    nodeDelay: 200,
-                    timing:{duration:200}
+                    nodeDelay: 300,
+                    timing:{duration:300}
                 }
                 }
             }
