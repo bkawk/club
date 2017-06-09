@@ -4,6 +4,10 @@
 <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="components/jetscape-navigation.html">
 <link rel="import" href="shared-styles.html">
+<link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="../bower_components/app-route/app-route.html">
+
+
 
 <dom-module id="my-orders">
   <template>
@@ -46,10 +50,14 @@
         overflow: hidden; 
         text-overflow:ellipsis;
       }
-      .fixed-small{
-        max-width: 50px;
-        min-width: 50px;
-      }
+      .fixed-small {
+        padding-right: 60px;
+        max-width: 160px;
+        min-width: 160px;
+        white-space: nowrap; 
+        overflow: hidden; 
+        text-overflow:ellipsis;
+        }
       .fixed-status{
         padding-right: 5px;
         max-width: 90px;
@@ -60,6 +68,13 @@
         text-overflow:ellipsis;
       }
     </style>
+
+    <app-location route="{{route}}"></app-location>
+    <app-route
+        route="{{route}}"
+        pattern="[[rootPattern]]:page"
+        data="{{routeData}}"
+        tail="{{subroute}}"></app-route>
 
     <iron-ajax
       id="ajax"
@@ -95,53 +110,27 @@
       <div class="grid-title">
         <div class="fixed-sku">Order N<sup>o</sup></div>
         <div class="fixed-status">Status</div>
-        <div class="fixed-small">Value</div>
+        <div class="fixed-small">Order Date</div>
         <div class="name">Customer</div>
       </div>
       <div class=" grid-blank">
       </div>
     </div>
-
+      
+    <template is="dom-repeat" items="{{orders}}">
     <div class="grid-area">
       <div class="grid-line">
-        <div class="fixed-sku">491302842324864</div>
-        <div class="fixed-status">Acknowledged</div>
-        <div class="fixed-small">$34.00</div>
-        <div class="name">Name is really too long to fit on this line</div>
+        <div class="fixed-sku">{{item.order_id}}</div>
+        <div class="fixed-status">{{item.status}}</div>
+        <div class="fixed-small">{{item.order_date}}</div>
+        <div class="name">{{item.buyer_name}}</div>
       </div>
-     <button class="grid-button">
+     <button class="grid-button" on-click="_shippingDetails">
         Ship
         <paper-ripple></paper-ripple>
       </button>
     </div>
-    
-    <div class="grid-area">
-      <div class="grid-line">
-        <div class="fixed-sku">491302842324864</div>
-        <div class="fixed-status">Acknowledged</div>
-        <div class="fixed-small">$34.00</div>
-        <div class="name">Name is really too long to fit on this line</div>
-      </div>
-     <button class="grid-button">
-        Ship
-        <paper-ripple></paper-ripple>
-      </button>
-    </div>
-
-    <div class="grid-area">
-      <div class="grid-line">
-        <div class="fixed-sku">491302842324864</div>
-        <div class="fixed-status">Acknowledged</div>
-        <div class="fixed-small">$34.00</div>
-        <div class="name">Name is really too long to fit on this line</div>
-      </div>
-     <button class="grid-button">
-        Ship
-        <paper-ripple></paper-ripple>
-      </button>
-    </div>
-  </div>
-</div>
+    </template>
   </template>
 
   <script>
@@ -176,16 +165,20 @@
         this._getOrders()
       }
 
-      //_getOrders(){
-      //  setInterval(()=>{ 
-      //      this.getParams = {jwttoken: localStorage.getItem("jwt")}
-      //      this.$.ajax.generateRequest();
-      //  }, 3000);
-      //}
+      _getOrders(){
+        //setInterval(()=>{ 
+            //this.getParams = {jwttoken: localStorage.getItem("jwt")}
+            this.$.ajax.generateRequest();
+        //}, 3000);
+      }
 
-    _handleResponse(e){
-      console.log(e.detail.response.RawDataPacket)
-    }
+      _handleResponse(e) {
+          this.orders = e.detail.response
+      }
+      _shippingDetails(e) {
+          console.log(e.model.item)
+          this.set('route.path','ship-order/'+e.model.item.order_id+'/')
+      }
     
     } window.customElements.define(MyOrders.is, MyOrders);
   </script>
