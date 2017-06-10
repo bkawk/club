@@ -5,6 +5,11 @@
 <link rel="import" href="components/jetscape-navigation.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../bower_components/neon-animation/web-animations.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/vaadin-date-picker/vaadin-date-picker.html">
+
 
 <dom-module id="my-ship-order">
   <template>
@@ -14,6 +19,10 @@
 
         padding: 10px;
       }
+      paper-dropdown-menu {
+            width: 200px;
+            margin-right: 20px;
+        }
     </style>
 
     <app-location route="{{route}}"></app-location>
@@ -26,35 +35,84 @@
 <jetscape-navigation></jetscape-navigation>
 
       <div class="container" id="container">
-          <paper-dropdown-menu label="Dinosaurs">
-              <paper-listbox slot="dropdown-content" selected="1">
-                  <paper-item>allosaurus</paper-item>
-                  <paper-item>brontosaurus</paper-item>
-                  <paper-item>carcharodontosaurus</paper-item>
-                  <paper-item>diplodocus</paper-item>
+          <paper-dropdown-menu label="Carrier" value="{{carrier}}">
+              <paper-listbox slot="dropdown-content" selected="0" on-selected-item-changed="_updateMethod">
+                  <paper-item>FedEx</paper-item>
+                  <paper-item>UPS</paper-item>
+                  <paper-item>OnTrac</paper-item>
+                  <paper-item>DHL</paper-item>
+                  <paper-item>USPS</paper-item>
+                  <paper-item>Other</paper-item>
               </paper-listbox>
           </paper-dropdown-menu>
-          <paper-input label="Method" type="password" value="{{password}}" class="noselect"></paper-input>
-          <paper-input label="Password" type="password" value="{{password}}" class="noselect"></paper-input>
-          <paper-input label="Password" type="password" value="{{password}}" class="noselect"></paper-input>
+          <paper-dropdown-menu label="Method" value ="{{method}}">
+              <paper-listbox slot="dropdown-content" selected="0">
+                  <template is="dom-repeat" items="{{arr}}">
+                      <paper-item>{{item}}</paper-item>
+                  </template>
+              </paper-listbox>
+          </paper-dropdown-menu>
+          <paper-input label="Tracking Number" value="{{trackingNumber}}" class="noselect"></paper-input>
+          <vaadin-date-picker value="Ship Date" placeholder="Ship Date"></vaadin-date-picker>
+          <vaadin-date-picker value="Estimated Delivery" placeholder="Estimated Delivery"></vaadin-date-picker>
           <p class="error noselect">{{error}}</p>
           <button type="button" class$="big-button noselect {{buttonWidth}}" on-click="_login">
-              Login <paper-spinner-lite active></paper-spinner-lite>
+              Send <paper-spinner-lite active></paper-spinner-lite>
               <paper-ripple></paper-ripple>
           </button>
-          <button type="button" class="little-button noselect" on-click="_register">
-              Register
-              <paper-ripple></paper-ripple>
-          </button>
-      </div>
 
+      </div>
   </template>
 
   <script>
     class MyShipOrder extends Polymer.Element {
-      static get is() { return 'my-ship-order'; }
-    }
+        static get is() { return 'my-ship-order'; }
+        _updateMethod(e) {
+            if (e.detail.value) {
+                var value = e.detail.value.innerHTML
+                console.log(value)
 
-    window.customElements.define(MyShipOrder.is, MyShipOrder);
+                var arr1 = ["Fedex2Day", "FedExExpeditedFreight", "FedexExpressSaver", "FedexFirstOvernight", "FedexFreight", "FedExGround", "FedExHome", "FedexPriorityOvernight", "FedexSameDay", "FedExSmartPost", "FedExSmartPostReturns", "FedexStandardOvernight"]
+                var arr2 = ["UPS2ndDayAir", "UPS2ndDayAirAM", "UPS2ndDayAirFreight", "UPS2ndDayAirFreightNGS", "UPS3DayFreight", "UPS3DayFreightNGS", "UPS3DaySelect", "UPSExpressCritical", "UPSFreight", "UPSGround", "UPSGroundFreightPricing", "UPSHundredweightService", "UPSMailInnovations", "UPSNextDayAir", "UPSNextDayAirEarly", "UPSNextDayAirFreight", "UPSNextDayAirFreightNGS", "UPSNextDayAirSaver", "UPSStandard"]
+                var arr3 = ["OnTracDirectPost", "OnTracGround", "OnTracPalletizedFreight", "OnTracSaturdayDelivery", "OnTracSunrise", "OnTracSunriseGold"]
+                var arr4 = ["DHLExpress12", "DHLExpress9", "DHLExpressEnvelope", "DHLExpressWorldwide", "DHLeCommerce", "DHLSmartmailFlatsGround", "DHLSmartmailParcelGround", "DHLSmartmailParcelPlusGround"]
+                var arr5 = ["USPSFirstClassMail", "USPSMediaMail", "USPSPriorityMail", "USPSPriorityMailExpress", "USPSRetailGround"]
+                var arr6 = ["Other"]
+
+                switch (value) {
+                    case "FedEx":
+                        this.arr = arr1;
+                        console.log("dick")
+                        break;
+
+                    case "UPS":
+                        this.arr = arr2;
+                        break;
+
+                    case "OnTrac":
+                        this.arr = arr3;
+                        break;
+
+                    case "DHL":
+                        this.arr = arr4;
+                        break;
+
+                    case "USPS":
+                        this.arr = arr5;
+                        break;
+
+                    case "Other":
+                        this.arr = arr6;
+                        break;
+                }
+            }
+            
+            console.log(this.arr)
+                
+            
+        }
+    } window.customElements.define(MyShipOrder.is, MyShipOrder);
+
   </script>
 </dom-module>
+
