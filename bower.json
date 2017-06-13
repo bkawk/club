@@ -18,7 +18,12 @@
     "paper-ripple": "PolymerElements/paper-ripple#2.0-preview",
     "neon-animation": "PolymerElements/neon-animation#2.0-preview",
     "web-animations-js": "^2.2.5",
-    "paper-spinner": "PolymerElements/paper-spinner#2.0-preview"
+    "paper-spinner": "PolymerElements/paper-spinner#2.0-preview",
+    "paper-dropdown-menu": "PolymerElements/paper-dropdown-menu#2.0-preview",
+    "paper-item": "PolymerElements/paper-item#2.0-preview",
+    "paper-listbox": "PolymerElements/paper-listbox#2.0-preview",
+    "paper-date-picker": "polymer-paper-date-picker#^1.2.0",
+    "vaadin-date-picker": "^1.2.3"
   },
   "resolutions": {
     "polymer": "^2.0.0-rc.3"
