@@ -99,7 +99,7 @@
   <div class="body">
     
     <div class="search-area">
-      <div class="seach-box"><paper-input label="Search" no-label-float></paper-input></div>
+      <div class="seach-box"><paper-input label="Search" no-label-float on-keyup="_search" value="{{search}}"></paper-input></div>
       <button class="grid-button">
         Search
         <paper-ripple></paper-ripple>
@@ -167,7 +167,7 @@
 
       _getOrders(){
         //setInterval(()=>{ 
-            //this.getParams = {jwttoken: localStorage.getItem("jwt")}
+            this.getParams = {jwttoken: localStorage.getItem("jwt")}
             this.$.ajax.generateRequest();
         //}, 3000);
       }
@@ -178,6 +178,18 @@
       _shippingDetails(e) {
           console.log(e.model.item)
           this.set('route.path','ship-order/'+e.model.item.order_id+'/')
+      }
+      _search(){
+        var myArray = this.orders
+        var nameKey = this.search
+        var searchArray = []
+
+        for (var i=0; i < myArray.length; i++) {
+          if (myArray[i].order_id.indexOf(nameKey) !=-1 || myArray[i].buyer_name.indexOf(nameKey) !=-1 ) {
+            searchArray.push(myArray[i]);
+          }
+        }
+        console.log(searchArray)
       }
     
     } window.customElements.define(MyOrders.is, MyOrders);
