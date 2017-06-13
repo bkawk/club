@@ -180,13 +180,10 @@
           this.set('route.path','ship-order/'+e.model.item.order_id+'/')
       }
       _search(){
-        var myArray = this.orders
-        var nameKey = this.search
         var searchArray = []
-
-        for (var i=0; i < myArray.length; i++) {
-          if (myArray[i].order_id.indexOf(nameKey) !=-1 || myArray[i].buyer_name.indexOf(nameKey) !=-1 ) {
-            searchArray.push(myArray[i]);
+        for (var i=0; i < this.orders.length; i++) {
+          if (this.orders[i].order_id.indexOf(this.search) !=-1 || this.orders[i].buyer_name.indexOf(this.search) !=-1 ) {
+            searchArray.push(this.orders[i]);
           }
         }
       console.log(searchArray)
