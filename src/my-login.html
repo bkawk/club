@@ -41,12 +41,18 @@
 
     <iron-ajax
       id="ajax"
-      url="https://api.jetscape.club/login/"
-      params='{"email":this.email, "password":this.password"}'
+      method="POST"
+      url="https://api.jetscape.club/login"
+      headers='{"Content-Type": "application/json"}' 
+      loading="{{loading}}"
       handle-as="json"
+      body="{{postBody}}"
       on-response="_handleResponse"
       debounce-duration="300">
     </iron-ajax>
+
+
+
   </template>
 
   <script>
@@ -66,6 +72,10 @@
           buttonWidth:{
             type: String,
             value:'mobile-button-width'
+          },
+          postBody:{
+            type:Object,
+            value:{foo:"bar"}
           },
           animationConfig: {
             value: function() {
@@ -110,6 +120,7 @@
               this.error = ''
               if(this.password){
                 this.error = ''
+                this.postBody = {password: this.password, email: this.email}
                 this.$.ajax.generateRequest();
               } else {
                 this.error = 'Enter a password'
