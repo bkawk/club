@@ -9,6 +9,7 @@
 <link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../bower_components/vaadin-date-picker/vaadin-date-picker.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
 
 
 <dom-module id="my-ship-order">
@@ -16,7 +17,6 @@
     <style include="shared-styles">
       :host {
         display: block;
-
         padding: 10px;
       }
       paper-dropdown-menu {
@@ -24,6 +24,18 @@
             margin-right: 20px;
         }
     </style>
+
+      <iron-ajax
+            id="ajax"
+            method="POST"
+            url="https://api.jetscape.club/ship"
+            headers='{"Content-Type": "application/json"}' 
+            loading="{{loading}}"
+            handle-as="json"
+            body="{{putBody}}"
+            on-response="_handleResponse"
+            debounce-duration="300">
+    </iron-ajax>
 
     <app-location route="{{route}}"></app-location>
     <app-route
@@ -53,10 +65,10 @@
               </paper-listbox>
           </paper-dropdown-menu>
           <paper-input label="Tracking Number" value="{{trackingNumber}}" class="noselect"></paper-input>
-          <vaadin-date-picker value="Ship Date" placeholder="Ship Date"></vaadin-date-picker>
-          <vaadin-date-picker value="Estimated Delivery" placeholder="Estimated Delivery"></vaadin-date-picker>
+          <vaadin-date-picker value="{{shipDate}}" placeholder="Ship Date"></vaadin-date-picker>
+          <vaadin-date-picker value="{{estimatedDelivery}}" placeholder="Estimated Delivery"></vaadin-date-picker>
           <p class="error noselect">{{error}}</p>
-          <button type="button" class$="big-button noselect {{buttonWidth}}" on-click="_login">
+          <button type="button" class$="big-button noselect {{buttonWidth}}" on-click="_ship">
               Send <paper-spinner-lite active></paper-spinner-lite>
               <paper-ripple></paper-ripple>
           </button>
@@ -67,6 +79,45 @@
   <script>
     class MyShipOrder extends Polymer.Element {
         static get is() { return 'my-ship-order'; }
+        static get properties() {
+          return {
+            mobileScreen: {
+              type: String,
+              observer: '_mobile'
+            },
+            loading:{
+              type: Boolean,
+              value: false
+            },
+            putBody:{
+              type:Object,
+              value:{foo:"bar"}
+            },
+            buttonWidth:{
+              type: String,
+              value:'mobile-button-width'
+            },
+            animationConfig: {
+            value: function() {
+              return {
+                'entry': {
+                  name: 'fade-in-animation',
+                  node: this,
+                  nodeDelay: 300,
+                  timing:{duration:300}
+                },
+                'exit': {
+                  name: 'fade-out-animation',
+                  node: this,
+                  nodeDelay: 300,
+                  timing:{duration:300}
+                }
+              }
+            }
+          }
+          };
+        }
+
         _updateMethod(e) {
             if (e.detail.value) {
                 var value = e.detail.value.innerHTML
@@ -82,7 +133,6 @@
                 switch (value) {
                     case "FedEx":
                         this.arr = arr1;
-                        console.log("dick")
                         break;
 
                     case "UPS":
@@ -106,13 +156,31 @@
                         break;
                 }
             }
-            
-            console.log(this.arr)
-                
-            
+            console.log(this.arr)   
+        }
+        _ship(e) {
+            console.log(localStorage.getItem("jwt"))
+            this.putBody = {
+                orderid: this.routeData.page,
+                carrier: this.carrier,
+                method: this.method,
+                trackingNumber: this.trackingNumber,
+                shipDate: this.shipDate,
+                estimatedDelivery: this.estimatedDelivery,
+                jwttoken: localStorage.getItem("jwt")
+            }
+            //TODO: add jwt token
+            if (this.routeData.page && this.carrier && this.method && this.trackingNumber && this.shipDate && this.estimatedDelivery) {
+                this.$.ajax.generateRequest();
+            } else {
+                this.error = "Something is missing."
+            }
         }
     } window.customElements.define(MyShipOrder.is, MyShipOrder);
 
+
   </script>
 </dom-module>
+
+
 
