@@ -27,6 +27,7 @@
     <div class="container" id="container">
       <paper-input label="Jet API User" value="{{jetapiuser}}" class="noselect"></paper-input>
       <paper-input label="Jet API Secret" type="password" value="{{jetapisecret}}" class="noselect"></paper-input>
+      <paper-input label="Merchant ID" value="{{merchantId}}" class="noselect"></paper-input>
         <p class="error noselect">{{error}}</p>
       <button type="button" class$="big-button noselect {{buttonWidth}}" on-click="_save">
         <template is="dom-if" if="{{!loading}}">Save</template> 
@@ -102,7 +103,11 @@
     
         _handleResponse(e){
           var response = e.detail.response;
-          console.log(response)
+          if(response.success == true){
+            this.set('route.path', 'dashboard/'); 
+          } else {
+            this.error = "Jet details are incorect"
+          }
         }
         _mobile(){
           if(this.mobileScreen == true){
@@ -114,7 +119,7 @@
         _save(){
             if(this.jetapiuser && this.jetapisecret){
                 this.error = ''
-                this.postBody = {jwttoken:localStorage.getItem("jwt"), jetapiuser: this.jetapiuser, jetapisecret: this.jetapisecret}
+                this.postBody = {jwttoken:localStorage.getItem("jwt"), jetapiuser: this.jetapiuser, jetapisecret: this.jetapisecret, merchantId: this.merchantId}
                 this.$.ajax.generateRequest();
             } 
         } 

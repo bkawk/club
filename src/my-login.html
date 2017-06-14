@@ -25,11 +25,12 @@
     <app-location route="{{route}}"></app-location>
     <img class="logo noselect" src="../images/jetscape.svg">
     <div class="container" id="container">
-      <paper-input label="Email" value="{{email}}" class="noselect"></paper-input>
-      <paper-input label="Password"  type="password" value="{{password}}" class="noselect"></paper-input>
+      <paper-input label="Email" value="{{email}}" class="noselect" on-keyup="_enter"></paper-input>
+      <paper-input label="Password"  type="password" value="{{password}}" class="noselect" on-keyup="_enter"></paper-input>
       <p class="error noselect">{{error}}</p>
       <button type="button" class$="big-button noselect {{buttonWidth}}" on-click="_login">
-        Login <paper-spinner-lite active></paper-spinner-lite>
+        <template is="dom-if" if="{{!loading}}">Login</template> 
+        <template is="dom-if" if="{{loading}}"><paper-spinner-lite active></paper-spinner-lite></template> 
         <paper-ripple></paper-ripple>
       </button>
       <button type="button" class="little-button noselect" on-click="_register">
@@ -37,7 +38,7 @@
         <paper-ripple></paper-ripple>
       </button>
     </div>
- 
+
 
     <iron-ajax
       id="ajax"
@@ -72,6 +73,10 @@
           buttonWidth:{
             type: String,
             value:'mobile-button-width'
+          },
+          loading:{
+            type: Boolean,
+            value: false
           },
           postBody:{
             type:Object,
@@ -117,6 +122,12 @@
         _register(){
           this.set('route.path', 'register/'); 
         } 
+
+        _enter(e){
+          if(e.keyCode === 13){
+            this._login()
+          }
+        }
         _login(){
           if(this.email){
             var valid = this._validateEmail(this.email)

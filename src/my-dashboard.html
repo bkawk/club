@@ -1,6 +1,7 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="components/jetscape-navigation.html">
 <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/paper-spinner/paper-spinner-lite.html">
 <link rel="import" href="shared-styles.html">
 
 <dom-module id="my-dashboard">
@@ -45,6 +46,10 @@
       .text{
         font-weight: 400;
       }
+      paper-spinner-lite{
+        width: 20px;
+        height: 20px;
+      }
     </style>
 
 
@@ -62,10 +67,15 @@
 
 
 <jetscape-navigation></jetscape-navigation>
+
+
+
 <div class="main">
   <div class="header"></div>
+
   <div class="body">
-      
+  <template is="dom-if" if="{{!loaded}}"><paper-spinner-lite active></paper-spinner-lite></template> 
+  <template is="dom-if" if="{{loaded}}">
       <div class="box">
         <div class="inner">
           <div class="number">{{orders}}</div>
@@ -86,22 +96,11 @@
           <div class="text">Return Request</div>
         </div>
       </div>
-
-      <!--<div class="box">
-        <div class="inner">
-          <div class="number">1</div>
-          <div class="text">Without Inventory</div>
-        </div>
-      </div>-->
-
-      <!--<div class="box">
-        <div class="inner">
-          <div class="number">4</div>
-          <div class="text">Return Price</div>
-        </div>
-      </div>-->
-
+  </template> 
   </div>
+
+
+
 
 </div>
 
@@ -114,6 +113,10 @@
     
       static get properties() {
         return {
+          loaded:{
+            type: Boolean,
+            value: false
+          },
           animationConfig: {
             value: function() {
               return {
@@ -157,6 +160,7 @@
       this.orders = e.detail.response.orders
       this.items = e.detail.response.items
       this.returns = e.detail.response.returns
+      this.loaded = true
     }
 
     
