@@ -36,17 +36,17 @@
 <div class="main">
   <div class="header">
     
-    <button type="button" class="big-button top-button noselect"  on-click="_register">
+    <button type="button" class="big-button top-button noselect"  on-click="_logout">
       Log&nbspOut
       <paper-ripple></paper-ripple>
     </button>
 
-    <button type="button" class="big-button top-button noselect"  on-click="_register">
+    <button type="button" class="big-button top-button noselect"  on-click="_invoices">
       Invoices
       <paper-ripple></paper-ripple>
     </button>
 
-    <button type="button" class="big-button top-button noselect"  on-click="_register">
+    <button type="button" class="big-button top-button noselect"  on-click="_billing">
       Billing
       <paper-ripple></paper-ripple>
     </button>
@@ -99,6 +99,11 @@
           }
         };
       }
+
+    _logout(){
+      localStorage.removeItem('jwt');
+      this.set('route.path', 'login/'); 
+    }
 
     } window.customElements.define(MySettings.is, MySettings);
   </script>

@@ -1,6 +1,7 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">
 <link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="../bower_components/iron-image/iron-image.html">
 <link rel="import" href="shared-styles.html">
 
 <dom-module id="my-home">
@@ -13,9 +14,21 @@
     .mobile-button-width{
         width: 100%;
     }
+    .skyline-img{
+      position:fixed;
+      top:0px;
+      right:0px;
+      bottom:0px;
+      left:0px
+    }
+    .logo, .container{
+      position: relative;
+      z-index:900;
+    }
     </style>
     <iron-media-query query="(min-width: 600px)" query-matches="{{mobileScreen}}"></iron-media-query>
     <app-location route="{{route}}"></app-location>
+    <iron-image class="skyline-img" placeholder="data:image/gif;base64,..." sizing="cover" preload src="/images/skyline.jpg"></iron-image>
     <img src="/images/jetscape.svg" class="logo noselect">
     <div class="container" id="container">
     <h2>Have you joined the club yet?</h2>
@@ -37,9 +50,7 @@
 
 <script>
     class MyHome extends Polymer.mixinBehaviors([Polymer.NeonAnimationRunnerBehavior, Polymer.NeonAnimatableBehavior], Polymer.Element) {
-
         static get is() { return 'my-home'; }
-
         static get properties() {
             return {
             mobileScreen: {
@@ -90,7 +101,6 @@
             this.buttonWidth = 'mobile-button-width'
             }
         } 
-
     } window.customElements.define(MyHome.is, MyHome);
 </script>
 </dom-module>
