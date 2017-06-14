@@ -99,10 +99,14 @@
       }
     
         _handleResponse(e){
-          console.log(e);
-          console.log(e.detail);
-          console.log(e.detail.response)
+          if(e.detail.response.login == true){
+            localStorage.setItem("jwt", e.detail.response.jwttoken);
+            this.set('route.path', 'dashboard/'); 
+          } else {
+            this.error = "Incorrect Username or Password"
+          }
         }
+
         _mobile(){
           if(this.mobileScreen == true){
             this.buttonWidth = 'desktop-button-width'
