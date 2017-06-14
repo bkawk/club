@@ -50,6 +50,11 @@
         width: 20px;
         height: 20px;
       }
+      .loading{
+        width: 100%;
+        text-align:center;
+        height: 20px;
+      }
     </style>
 
 
@@ -74,7 +79,11 @@
   <div class="header"></div>
 
   <div class="body">
-  <template is="dom-if" if="{{!loaded}}"><paper-spinner-lite active></paper-spinner-lite></template> 
+  <template is="dom-if" if="{{!loaded}}">
+    <div class="loading">
+      <paper-spinner-lite active></paper-spinner-lite>
+    </div>
+  </template> 
   <template is="dom-if" if="{{loaded}}">
       <div class="box">
         <div class="inner">
