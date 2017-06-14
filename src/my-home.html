@@ -70,7 +70,13 @@
             }
         };
     }
-
+        ready(){
+            super.ready()
+            var jwt = localStorage.getItem("jwt")
+            if(jwt){
+                this.set('route.path', 'dashboard/'); 
+            }
+        }
         _register(){
             this.set('route.path', 'register/'); 
         } 

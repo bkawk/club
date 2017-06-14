@@ -98,6 +98,13 @@
           };
         }
     
+        ready(){
+            super.ready()
+            var jwt = localStorage.getItem("jwt")
+            if(jwt){
+                this.set('route.path', 'dashboard/'); 
+            }
+        }
         _handleResponse(e){
           var response = e.detail.response;
           if (response && response == "Email Already Exists"){

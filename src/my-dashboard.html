@@ -139,6 +139,13 @@
         super.connectedCallback();
         this._getDashboard()
     }
+    ready(){
+        super.ready()
+        var jwt = localStorage.getItem("jwt")
+        if(!jwt){
+            this.set('route.path', 'login/'); 
+        }
+    }
 
     _getDashboard(){
       setInterval(()=>{ 
