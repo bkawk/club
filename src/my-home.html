@@ -14,7 +14,7 @@
     .mobile-button-width{
         width: 100%;
     }
-    video{
+    video, .skyline{
         position: fixed;
         top: 50%;
         left: 50%;
@@ -81,9 +81,17 @@
     <iron-media-query query="(min-width: 600px)" query-matches="{{mobileScreen}}"></iron-media-query>
     <app-location route="{{route}}"></app-location>
     <div class="fade"></div>
+
     <template is="dom-if" if="{{loading}}">
-        <video autoplay muted loop src="/images/skyline.mp4" id="videoz" on-playing="_loaded" class$="{{reveal}}"></video>
+        <template is="dom-if" if="{{mobileScreen}}">
+            <video autoplay muted loop src="/images/skyline.mp4" id="videoz" on-playing="_loaded" class$="{{reveal}}"></video>
+        </template>
+        <template is="dom-if" if="{{!mobileScreen}}">
+            <img src="/images/skyline.jpg" class="skyline">
+        </template>
     </template>
+
+
     <img src="/images/jetscape.svg" class="logo noselect">
     <div class="container" id="container">
     <h2>Where E-Commerce Never Stops</h2>

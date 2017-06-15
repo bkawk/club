@@ -1,7 +1,7 @@
 {
   "name": "Jetscape",
   "short_name": "Jetscape",
-  "start_url": "./?homescreen=1",
+  "start_url": "/",
   "display": "standalone",
   "theme_color": "#FF0000",
   "background_color": "#C6C6C6",
