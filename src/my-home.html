@@ -82,12 +82,12 @@
     <app-location route="{{route}}"></app-location>
     <div class="fade"></div>
     <template is="dom-if" if="{{loading}}">
-        <video autoplay muted loop src="/images/skyline.mp4" id="videoz" on-loadeddata="_loaded" class$="{{reveal}}"></video>
+        <video autoplay muted loop src="/images/skyline.mp4" id="videoz" on-playing="_loaded" class$="{{reveal}}"></video>
     </template>
     <img src="/images/jetscape.svg" class="logo noselect">
     <div class="container" id="container">
     <h2>Where E-Commerce Never Stops</h2>
-    <h4>Your window in to the JET API</h4>
+    <h4>Your window directly into the heart of the JET API</h4>
     <button type="button" class$="big-button noselect {{buttonWidth}} outline"  on-click="_register">
         Register
     <paper-ripple></paper-ripple>
@@ -142,10 +142,10 @@
             this.reveal = 'reveal'
         }
         _loaded(){
-
-            
+            if(this.$$("#videoz")){
+                this.$$("#videoz").playbackRate = 0.8;
+            } 
         }
-
         _register(){
             this.set('route.path', 'register/'); 
         } 
