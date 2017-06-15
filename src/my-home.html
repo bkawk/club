@@ -1,6 +1,7 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">
 <link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="../bower_components/paper-ripple/paper-ripple.html">
 <link rel="import" href="shared-styles.html">
 
 <dom-module id="my-home">
@@ -87,8 +88,14 @@
     <div class="container" id="container">
     <h2>Where E-Commerce Never Stops</h2>
     <h4>Your window in to the JET API</h4>
-    <button type="button" class$="big-button noselect {{buttonWidth}} outline"  on-click="_register">Register</button>
-    <button type="button" class="little-button noselect" on-click="_login">Login</button>
+    <button type="button" class$="big-button noselect {{buttonWidth}} outline"  on-click="_register">
+        Register
+    <paper-ripple></paper-ripple>
+    </button>
+    <button type="button" class="little-button noselect" on-click="_login">
+        Login
+    <paper-ripple></paper-ripple>
+    </button>
     </div>
 </template>
 

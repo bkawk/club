@@ -91,10 +91,20 @@
 <jetscape-navigation></jetscape-navigation>
 <div class="main">
   <div class="header">
-      <button type="button" class="big-button top-button noselect"  on-click="_register">
+
+ <template is="dom-if" if="{{!showOrders}}">
+    <button type="button" class="big-button top-button noselect"  on-click="_orders">
+      Orders
+      <paper-ripple></paper-ripple>
+    </button>
+ </template>
+ <template is="dom-if" if="{{showOrders}}">
+    <button type="button" class="big-button top-button noselect"  on-click="_returns">
       Returns
       <paper-ripple></paper-ripple>
     </button>
+ </template>
+
   </div>
   <div class="body">
     
@@ -139,6 +149,10 @@
     
       static get properties() {
         return {
+          showOrders:{
+            type:Boolean,
+            value: true
+          },
           animationConfig: {
             value: function() {
               return {
@@ -167,7 +181,7 @@
 
       _getOrders(){
         //setInterval(()=>{ 
-            this.getParams = {jwttoken: localStorage.getItem("jwt")}
+            this.getParams = {jwttoken: localStorage.getItem("jwt"), request: "orders"}
             this.$.ajax.generateRequest();
         //}, 3000);
       }
@@ -177,7 +191,6 @@
           this._search()
       }
       _shippingDetails(e) {
-          console.log(e.model.item)
           this.set('route.path','ship-order/'+e.model.item.order_id+'/')
       }
       _search(){
@@ -192,6 +205,16 @@
         }
         this.results = searchArray;
         }
+      }
+      _returns(){
+        this.showOrders = false
+        this.getParams = {jwttoken: localStorage.getItem("jwt"), request: "returns"}
+        this.$.ajax.generateRequest();
+      }
+      _orders(){
+        this.showOrders = true
+        this.getParams = {jwttoken: localStorage.getItem("jwt"), request: "orders"}
+        this.$.ajax.generateRequest();
       }
     
     } window.customElements.define(MyOrders.is, MyOrders);
