@@ -16,6 +16,11 @@
     "src/my-settings.html",
     "src/my-update-billing.html",
     "src/my-update-invoices.html",
+    "src/my-features.html",
+    "src/my-pricing.html",
+    "src/my-support.html",
+    "src/my-learning.html",
+    "src/my-blog.html",
     "src/my-view404.html"
   ],
   "sources": [

@@ -2,6 +2,7 @@
 <link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">
 <link rel="import" href="../bower_components/app-route/app-location.html">
 <link rel="import" href="../bower_components/paper-ripple/paper-ripple.html">
+<link rel="import" href="components/jetscape-topnavigation.html">
 <link rel="import" href="shared-styles.html">
 
 <dom-module id="my-home">
@@ -25,20 +26,19 @@
         z-index: -100;
         transform: translateX(-50%) translateY(-50%);
     }
-    .logo, .container{
+    .container{
         position: relative;
         z-index:900;
     }
-
     .fade{
         position:fixed;
         top:0px;
         right:0px;
         left:0px;
         height:300px;
-        background: -moz-linear-gradient(top, rgba(151,151,151,1) 0%, rgba(148,154,159,1) 30%, rgba(125,185,232,0) 100%); /* FF3.6-15 */
-        background: -webkit-linear-gradient(top, rgba(151,151,151,1) 0%,rgba(148,154,159,1) 30%,rgba(125,185,232,0) 100%); /* Chrome10-25,Safari5.1-6 */
-        background: linear-gradient(to bottom, rgba(151,151,151,1) 0%,rgba(148,154,159,1) 30%,rgba(125,185,232,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+        background: -moz-linear-gradient(top, rgba(193,193,193,1) 0%, rgba(193,193,193,1) 30%, rgba(193,193,193,0) 100%); /* FF3.6-15 */
+        background: -webkit-linear-gradient(top, rgba(193,193,193,1) 0%,rgba(193,193,193,1) 30%,rgba(193,193,193,0) 100%); /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(to bottom, rgba(193,193,193,1) 0%,rgba(193,193,193,1) 30%,rgba(193,193,193,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
         filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#979797', endColorstr='#007db9e8',GradientType=0 ); /* IE6-9 */
         z-index:10;
     }
@@ -77,44 +77,8 @@
         border: 1px solid white;
         background-color: rgba(0,0,0,0.3)
     }
-    .top-nav{
-        padding-top:28px;
-        padding-right:20px;
-        width: 450px;
-        height: 60px;
-        position: fixed;
-        top: 0px;
-        right:0px;
-        z-index: 900;
-        font-size: 13px;
-        text-align: right;
-    }
-    .top-nav ul{
-        list-style: none;
-    }
-    .top-nav ul a{
-        text-decoration: none;
-        color: black;
-    }
-    .top-nav li{
-        display: inline;
-        padding-right:18px;
-        padding-left:18px;
-        padding-top:10px;
-        padding-bottom:10px;
-    }
-    .top-nav li:hover{
-        display: inline;
-        padding-right:18px;
-        cursor: pointer;
-        border-radius:3px;
-        border: 1px solid rgba(255,255,255,0.7);;
-        background-color: rgba(0,0,0,0.3);
-        color: white;
-        font-weight: bold;
-    }
     .container{
-        padding-top:40px;
+        padding-top:80px;
     }
     </style>
     <iron-media-query query="(min-width: 600px)" query-matches="{{mobileScreen}}"></iron-media-query>
@@ -130,17 +94,7 @@
         </template>
     </template>
 
-
-    <img src="/images/jetscape.svg" class="logo noselect">
-    <div class="top-nav">
-        <ul>
-            <a href="features/"><li>Features</li></a>
-            <a href="pricing/"><li>Pricing</li></a>
-            <a href="support/"><li>Support</li></a>
-            <a href="learning/"><li>Learning</li></a>
-            <a href="blog/"><li>Blog</li></a>
-        </ul>
-    </div>
+    <jetscape-topnavigation class="noselect topnav"></jetscape-topnavigation>
     <div class="container" id="container">
     <h2>Where E-Commerce Never Stops</h2>
     <h4>Your window directly into the heart of the JET API</h4>

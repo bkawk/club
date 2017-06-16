@@ -5,6 +5,7 @@
   <template>
     <style>
     :host {
+      --bacground-grey-color: #c1c1c1;
       --big-button-background-color: #979797;
       --big-button-color: #FFFFFF;
       --little-button-background-color: #FFFFFF;
@@ -36,7 +37,16 @@
       --paper-input-container-color: var(--paper-input-color);
       --paper-input-container-focus-color: var(--paper-input-color);
     }
-
+    jetscape-topnavigation{
+      position: fixed;
+      top:0px;
+      left:0px;
+      right:0px;
+      z-index:910;
+      height:40px;
+      overflow:hidden;
+      background-color: var(--bacground-grey-color)
+    }
       .seach-box{
         background-color: #dedede;
         margin-right: 9px;
@@ -156,8 +166,8 @@
       background-color: var(--little-button-background-color)
     }
     .logo{
-      width: 150px;
-      margin: 18px;
+      width: 120px;
+      margin: 8px;
     }
     .noselect{
       -webkit-user-select: none;  

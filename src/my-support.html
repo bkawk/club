@@ -1,0 +1,56 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">
+<link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="../bower_components/paper-ripple/paper-ripple.html">
+<link rel="import" href="components/jetscape-topnavigation.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="my-support">
+  <template>
+    <style include="shared-styles">
+    :host {
+        display: block;
+        padding: 10px;
+        background-color:white;
+        background-image: url("../images/light-mesh.png");
+        height: 100vh;
+    }
+    </style>
+    <iron-media-query query="(min-width: 600px)" query-matches="{{mobileScreen}}"></iron-media-query>
+    <app-location route="{{route}}"></app-location>
+    <jetscape-topnavigation class="noselect topnav"></jetscape-topnavigation>
+    <div class="container" id="container">
+
+    </div>
+
+  </template>
+
+  <script>
+    class MySupport extends Polymer.Element {
+      static get is() { return 'my-support'; }
+      static get properties() {
+        return {
+
+          animationConfig: {
+            value: function() {
+              return {
+                'entry': {
+                  name: 'fade-in-animation',
+                  node: this,
+                  nodeDelay: 300,
+                  timing:{duration:300}
+                },
+                'exit': {
+                  name: 'fade-out-animation',
+                  node: this,
+                  nodeDelay: 300,
+                  timing:{duration:300}
+                }
+              }
+            }
+          }
+        };
+      }
+    } window.customElements.define(MySupport.is, MySupport);
+  </script>
+</dom-module>

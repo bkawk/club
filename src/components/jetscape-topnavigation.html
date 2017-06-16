@@ -1,0 +1,75 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../../bower_components/app-route/app-location.html">
+<link rel="import" href="../shared-styles.html">
+
+<dom-module id="jetscape-topnavigation">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+        padding: 10px;
+      }
+      .top-nav{
+        margin-top:21px;
+        padding-right:20px;
+        width: 455px;
+        height: 60px;
+        position: fixed;
+        top: 0px;
+        right:0px;
+        z-index: 900;
+        font-size: 13px;
+        text-align: right;
+    }
+    .top-nav a{
+        list-style: none;
+    }
+    .top-nav a{
+        text-decoration: none;
+        color: black;
+    }
+    .top-nav a{
+        display: inline;
+        padding-right:18px;
+        padding-left:18px;
+        padding-top:10px;
+        padding-bottom:10px;
+        border: 1px solid rgba(255,255,255,0);
+    }
+    .top-nav a:hover, a.iron-selected{
+        display: inline;
+        padding-right:18px;
+        cursor: pointer;
+        border-radius:3px;
+        border: 1px solid rgba(255,255,255,0.7);
+        background-color: rgba(0,0,0,0.3);
+        color: white;
+        font-weight: bold;
+    }
+
+    </style>
+
+    <app-location route="{{route}}"></app-location>
+    <a href="/"><img src="/images/jetscape.svg" class="logo"></a>
+      <iron-selector selected="[[route.path]]" attr-for-selected="name" role="navigation" class="top-nav">
+                <a name="/features/" href="features/">Features</a>
+                <a name="/pricing/" href="pricing/">Pricing</a>
+                <a name="/support/" href="support/">Support</a>
+                <a name="/learning/" href="learning/">Learning</a>
+                <a name="/blog/" href="blog/">Blog</a>
+      </iron-selector>
+
+
+
+  </template>
+
+  <script>
+    class JetscapeTopNavigation extends Polymer.Element {
+      static get is() { return 'jetscape-topnavigation'; }
+    
+    
+    
+    } window.customElements.define(JetscapeTopNavigation.is, JetscapeTopNavigation);
+  </script>
+</dom-module>
