@@ -21,8 +21,6 @@
     "paper-dropdown-menu": "PolymerElements/paper-dropdown-menu#2.0-preview",
     "paper-item": "PolymerElements/paper-item#2.0-preview",
     "paper-listbox": "PolymerElements/paper-listbox#2.0-preview",
-    "vaadin-date-picker": "^1.2.3",
-    "paper-styles": "^2.0.0",
     "iron-image": "2.0-preview"
   },
   "resolutions": {
