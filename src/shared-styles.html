@@ -54,18 +54,45 @@
       background-color: var(--header-background-color);
       width:100%;
     }
+    .page-body{
+      width:100%;
+    }
+    
+    .half-column{
+      max-width:calc(25% - 18px);
+      padding-right:18px;
+      font-size:13px;
+      line-height:1.6;
+      padding-bottom: 60px;
+      min-width:130px;
+    }
+
+    .page-body .center .column{
+      width:50%;
+      min-width:300px;
+      font-size:13px;
+      line-height:1.6;
+    }
+    .page-body .center{
+      padding: 18px 18px 0px 18px;
+      max-width: 600px;
+      margin: 0 auto;
+      @apply --layout-horizontal;
+      @apply --layout-wrap;
+    }
     .page-header .title{
       font-size:35px;
       color: #3e3e45;
+      line-height:0.9;
     }
     .page-header .strap{
       font-size:14px;
       color: #3e3e45;
       position: relative;
-      top:-5px;
+      top:3px;
     }
     .page-header .center{
-      padding: 45px 18px 45px 18px;
+      padding: 55px 18px 35px 18px;
       max-width: 600px;
       margin: 0 auto;
       min-height:70px;

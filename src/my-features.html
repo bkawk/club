@@ -12,22 +12,73 @@
         padding:0;
         margin:0;
         display: block;
-        background-color:white;
-        background-image: url("../images/light-mesh.png");
-        height: 100vh;
+    }
+    .page-body{
+      background-color:white;
+      background-image: url("../images/light-mesh.png");
+    }
+    h3{
+      font-weight:100;
+      font-size:24px;
+    }
+    .half-column{
+      max-width:calc(25% - 18px);
+      padding-right:18px;
+    }
+    .feature-icons{
+      position: relative;
+      top:15px;
+      width:38px;
+      height:38px;
+      background-image: url("../images/feature-icons.png");
     }
     </style>
     <iron-media-query query="(min-width: 600px)" query-matches="{{mobileScreen}}"></iron-media-query>
     <app-location route="{{route}}"></app-location>
     <jetscape-topnavigation class="noselect topnav"></jetscape-topnavigation>
-    <div class="page-header">
-      <div class="center">
-        <div class="title">Features That Work for you</div>
-        <div class="strap">Everyone starts small. But with the right resources, you can execute big plans.</div>
+    <div class="page-body">
+      <div class="page-header">
+        <div class="center">
+          <div class="title">Features That Work for you</div>
+          <div class="strap">Everyone starts small. But with the right resources, you can execute big plans.</div>
+        </div>
       </div>
     </div>
-    <div class="container" id="container">
-
+    <div class="page-body">
+      <div class="center">
+        <div class="column">
+        <h3>Manage your entire store</h3>
+        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. </p>
+        <p>It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+        </div>
+        <div class="column">
+          <img src="/images/features.png" style="width: 350px">
+        </div>
+      </div>
+    </div>
+    <div class="page-body">
+      <div class="center">
+      <div class="half-column">
+        <div class="feature-icons"></div>
+        <h3>Inventory</h3>
+        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+      </div>
+      <div class="half-column">
+        <div class="feature-icons" style="background-position:-38px 0px"></div>
+        <h3>Orders</h3>
+        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+      </div>
+      <div class="half-column">
+        <div class="feature-icons" style="background-position:-76px 0px"></div>
+        <h3>Returns</h3>
+        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+      </div>
+      <div class="half-column">
+        <div class="feature-icons" style="background-position:-112px 0px"></div>
+        <h3>Shipping</h3>
+        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+      </div>
+      </div>
     </div>
 
   </template>
