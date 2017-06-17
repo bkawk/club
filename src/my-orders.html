@@ -92,6 +92,18 @@
       debounce-duration="300">
     </iron-ajax>
 
+    <iron-ajax
+      id="ajax2"
+      method="GET"
+      url="https://api.jetscape.club/getOrderItem"
+      headers='{"Content-Type": "application/json"}' 
+      loading="{{loading}}"
+      handle-as="json"
+      params="{{getParams2}}"
+      on-response="_handleResponse2"
+      debounce-duration="300">
+    </iron-ajax>
+
 <jetscape-navigation></jetscape-navigation>
 <div class="main">
   <div class="header">
@@ -133,13 +145,12 @@
       
     <template is="dom-repeat" items="{{results}}">
     <div class="grid-area">
-      <div class="grid-line">
+      <div class="grid-line" on-click="_getOrderItem">
         <div class="fixed-sku">{{item.order_id}}</div>
         <div class="fixed-status">{{item.status}}</div>
         <div class="fixed-small">{{item.order_date}}</div>
-        <div class="name">{{item.buyer_name}}</div>
+        <div class="name">{{item.buyer_name}}{{item.address1}}{{item.address2}}</div>
       </div>
-
 
 <template is="dom-if" if="{{showOrders}}">
       <template is="dom-if" if="{{_showShip(item.status)}}">
@@ -206,7 +217,11 @@
         super.connectedCallback();
         this._getOrders()
       }
-
+      _getOrderItem(e){
+        const orderId = e.model.__data.item.order_id
+        this.getParams2 = {jwttoken: localStorage.getItem("jwt"), orderId: orderId}
+        this.$.ajax2.generateRequest();
+      }
       _showShip(status){
         if(status == "complete"){
           return false
@@ -233,6 +248,10 @@
           this.orders = e.detail.response
           console.log(e.detail.response)
           this._search()
+      }
+
+      _handleResponse2(e) {
+          console.log(e.detail.response)
       }
       _shippingDetails(e) {
           this.set('route.path','ship-order/'+e.model.item.order_id+'/')

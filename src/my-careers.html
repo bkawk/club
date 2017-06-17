@@ -5,7 +5,7 @@
 <link rel="import" href="components/jetscape-topnavigation.html">
 <link rel="import" href="shared-styles.html">
 
-<dom-module id="my-learning">
+<dom-module id="my-careers">
   <template>
     <style include="shared-styles">
     :host {
@@ -19,6 +19,12 @@
     <iron-media-query query="(min-width: 600px)" query-matches="{{mobileScreen}}"></iron-media-query>
     <app-location route="{{route}}"></app-location>
     <jetscape-topnavigation class="noselect topnav"></jetscape-topnavigation>
+    <div class="page-header">
+      <div class="center">
+        <div class="title">What are you waiting for?</div>
+        <div class="strap">Changing the world starts with you</div>
+      </div>
+    </div>
     <div class="container" id="container">
 
     </div>
@@ -26,8 +32,8 @@
   </template>
 
   <script>
-    class MyLearning extends Polymer.Element {
-      static get is() { return 'my-learning'; }
+    class MyCareers extends Polymer.Element {
+      static get is() { return 'my-careers'; }
       static get properties() {
         return {
 
@@ -52,6 +58,6 @@
         };
       }
 
-    } window.customElements.define(MyLearning.is, MyLearning);
+    } window.customElements.define(MyCareers.is, MyCareers);
   </script>
 </dom-module>
