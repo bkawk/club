@@ -1,5 +1,5 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
-<link rel="import" href="components/jetscape-navigation.html">
+<link rel="import" href="components/jetscape-topnavigation.html">
 <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../bower_components/paper-spinner/paper-spinner-lite.html">
 <link rel="import" href="shared-styles.html">
@@ -70,19 +70,13 @@
     </iron-ajax>
 
 
-<jetscape-navigation></jetscape-navigation>
+<jetscape-topnavigation class="noselect topnav" logged-in loading="{{loading}}"></jetscape-topnavigation>
 
 
 
 <div class="main">
   <div class="header"></div>
-
   <div class="body">
-  <template is="dom-if" if="{{!loaded}}">
-    <div class="loading">
-      <paper-spinner-lite active></paper-spinner-lite>
-    </div>
-  </template> 
   <template is="dom-if" if="{{loaded}}">
       <div class="box">
         <div class="inner">
@@ -159,10 +153,8 @@
     }
 
     _getDashboard(){
-      setInterval(()=>{ 
-          this.getParams = {jwttoken: localStorage.getItem("jwt")}
-          this.$.ajax.generateRequest();
-      }, 3000);
+      this.getParams = {jwttoken: localStorage.getItem("jwt")}
+      this.$.ajax.generateRequest();
     }
     _handleResponse(e){
       this.orders = e.detail.response.orders

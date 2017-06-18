@@ -1,6 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="../../bower_components/app-route/app-location.html">
+<link rel="import" href="../../bower_components/paper-progress/paper-progress.html">
 <link rel="import" href="../shared-styles.html">
 
 <dom-module id="jetscape-topnavigation">
@@ -31,6 +32,8 @@
     }
     .top-nav a{
         display: inline;
+        margin-left:1px;
+        margin-left:1px;
         padding-right:18px;
         padding-left:18px;
         padding-top:10px;
@@ -38,6 +41,8 @@
         border: 1px solid rgba(255,255,255,0);
     }
     .top-nav a:hover, a.iron-selected{
+        margin-left:0px;
+        margin-left:0px;
         display: inline;
         padding-right:18px;
         cursor: pointer;
@@ -47,17 +52,49 @@
         color: white;
         font-weight: bold;
     }
+    paper-progress {
+        display: block;
+        width: 100%;
+        margin: 0;
+        padding:0;
+        position: relative;
+        top: -10px;
+        height:2px;
+        --paper-progress-active-color: white;
+        --paper-progress-container-color: rgba(0,0,0,0);
+      }
+      .logo{
+        width: 120px;
+        margin: 8px 0px 8px 18px;
+      }
 
     </style>
 
     <app-location route="{{route}}"></app-location>
+    <template is="dom-if" if="{{loading}}">
+      <paper-progress indeterminate class="slow" {{progress}}></paper-progress>
+    </template>
     <a href="/"><img src="/images/jetscape.svg" class="logo"></a>
+
     <iron-selector selected="[[route.path]]" attr-for-selected="name" role="navigation" class="top-nav">
-      <a name="/features/" href="features/">Features</a>
-      <a name="/pricing/" href="pricing/">Pricing</a>
-      <a name="/support/" href="support/">Support</a>
-      <a name="/careers/" href="careers/">Careers</a>
+
+      <template is="dom-if" if="{{!loggedIn}}">
+        <a name="/features/" href="features/">Features</a>
+        <a name="/pricing/" href="pricing/">Pricing</a>
+        <a name="/support/" href="support/">Support</a>
+        <a name="/careers/" href="careers/">Careers</a>
+      </template>
+
+      <template is="dom-if" if="{{loggedIn}}">
+        <a name="/dashboard/" href="dashboard/">Dashboard</a>
+        <a name="/inventory/" href="inventory/">Inventory</a>
+        <a name="/orders/" href="orders/">Orders</a>
+        <a name="/returns/" href="returns/">Returns</a>
+        <a name="/settings/" href="settings/">Settings</a>
+      </template>
+
     </iron-selector>
+
 
 
 
@@ -67,7 +104,19 @@
     class JetscapeTopNavigation extends Polymer.Element {
       static get is() { return 'jetscape-topnavigation'; }
     
-    
+      static get properties() {
+        return {
+          loggedIn:{
+            type: Boolean,
+            value: false
+          },
+          loading:{
+            type: Boolean,
+            value: false
+          },
+
+        };
+      }
     
     } window.customElements.define(JetscapeTopNavigation.is, JetscapeTopNavigation);
   </script>

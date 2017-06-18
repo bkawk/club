@@ -2,7 +2,6 @@
 <link rel="import" href="shared-styles.html">
 <link rel="import" href="../bower_components/app-route/app-location.html">
 <link rel="import" href="../bower_components/app-route/app-route.html">
-<link rel="import" href="components/jetscape-navigation.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../bower_components/neon-animation/web-animations.html">
@@ -10,6 +9,7 @@
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../bower_components/vaadin-date-picker/vaadin-date-picker.html">
 <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="components/jetscape-topnavigation.html">
 
 
 <dom-module id="my-refund-order">
@@ -46,7 +46,7 @@
         data="{{routeData}}"
         tail="{{subroute}}"></app-route>
 
-<jetscape-navigation></jetscape-navigation>
+<jetscape-topnavigation class="noselect" logged-in loading="{{loading}}"></jetscape-topnavigation>
 
       <div class="container" id="container">
         <template is="dom-repeat" items="{{orderItems}}">
