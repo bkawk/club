@@ -14,6 +14,16 @@
         background-image: url("../images/light-mesh.png");
         height: 100vh;
     }
+    .column img{
+      width: 200px; 
+      padding-left:18px;
+      position:relative;
+      top:-40px
+    }
+    .page-body{
+      background-color:white;
+      background-image: url("../images/light-mesh.png");
+    }
     </style>
     <iron-media-query query="(min-width: 600px)" query-matches="{{mobileScreen}}"></iron-media-query>
     <app-location route="{{route}}"></app-location>
@@ -24,8 +34,39 @@
         <div class="strap">Jetscape’s self service knowledge base is here to help</div>
       </div>
     </div>
-    <div class="container" id="container">
+    <div class="page-body">
+      <div class="center">
+        <div class="column">
+          <h3>New to JetScape? Start here</h3>
+          <p>This article explains a few things to know as you get started with JetScape.</p>
 
+          <p>Where can I find my... </p>
+            - Jet Api Key</br>
+            - Jet Api Secret</br>
+            - Vendor ID</br>
+
+          <p>How do I....</p>
+            - Register for Jetscpae</br>
+            - Login to Jetscpae</br>
+            - List my first product</br>
+            - Confirm an order</br>
+            - Enter shipping details</br>
+
+        </div>
+        <div class="column">
+          <img src="/images/pricingGenie.png">
+          <h3>Pricing</h3>
+          <p>Get answers to common questions about our pricing plans and billing.</p>
+
+          <p>How do I....</p>
+          - Find the right plan</br>
+          - Pay with Bitcoin or Ether</br>
+
+          <p>Where can I find my...</p>
+          - Invoices</br>
+          - Recipts</br>
+        </div>
+      </div>
     </div>
 
   </template>

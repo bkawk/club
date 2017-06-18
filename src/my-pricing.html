@@ -14,6 +14,17 @@
         background-image: url("../images/light-mesh.png");
         height: 100vh;
     }
+    .third-column img{
+      width:160px;
+      padding-top: 20px;
+    }
+    .third-column p{
+      width: calc(100% - 18px);
+    }
+    .page-body{
+      background-color:white;
+      background-image: url("../images/light-mesh.png");
+    }
     </style>
     <iron-media-query query="(min-width: 600px)" query-matches="{{mobileScreen}}"></iron-media-query>
     <app-location route="{{route}}"></app-location>
@@ -24,8 +35,27 @@
         <div class="strap">Weather your a small or growing business or a profssional marketer we have aplan for you</div>
       </div>
     </div>
-    <div class="container" id="container">
-
+    <div class="page-body">
+      <div class="center">
+        <div class="third-column">
+          <b>New Business</b>
+          <div class="subtitle">Free for 3 products forever</div>
+          <img src="/images/pricingNew.png">
+          <p>Create beautiful, professional product listings for free. No design or coding experience necessary. It's so easy, you can start posting to Jet today.</p>
+        </div>
+        <div class="third-column">
+          <b>Growing Business</b>
+          <div class="subtitle">Starting at $10 per month</div>
+          <img src="/images/pricingGrowing.png">
+          <p>Level up with unlimited listings, order demographics, product telemetry, advanced listing tools, and access to our helpful support team any time you need it.</p>
+        </div>
+        <div class="third-column">
+          <b>Pro Marketeer</b>
+          <div class="subtitle">Additional $199 per month</div>
+          <img src="/images/pricingPro.png">
+          <p>Improve performance with enterprise-level features for high-volume senders like multivariate testing, comparative reports, and much more.</p>
+        </div>
+      </div>
     </div>
 
   </template>
