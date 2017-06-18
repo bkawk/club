@@ -67,9 +67,29 @@
         text-overflow:ellipsis;
       }
       .blank{
+        
         width: 80px;
         height: 38px;
       }
+      .grid-line{
+        cursor: pointer;
+      }
+      .show-modal{
+        display:block;
+        position:fixed;
+        top:0px;
+        right:0px;
+        bottom:0px;
+        left:0px;
+        background-color: rgba(0,0,0, 0.6);
+        z-index: 1;
+        color: white;
+      }
+
+      .hide-modal{
+        display:none;
+      }
+      
     </style>
 
     <app-location route="{{route}}"></app-location>
@@ -103,6 +123,39 @@
       debounce-duration="300">
     </iron-ajax>
 
+<div class$="{{modal}}" on-click="_hideModal">
+  <p> 
+    Address1 {{selected.address1}}</br>
+    Address2 {{selected.address2}}</br>
+    Buyer Name {{selected.buyer_name}}</br>
+    City {{selected.city}}</br>
+    fulfillment_node{{selected.fulfillment_node}}</br>
+    jet_order_id{{selected.jet_order_id}}</br>
+    merchant_id{{selected.merchant_id}}</br>
+    order_date{{selected.order_date}}</br>
+    order_id{{selected.order_id}}</br>
+    phone_number{{selected.phone_number}}</br>
+    requested_carrier{{selected.requested_carrier}}</br>
+    ship_by{{selected.ship_by}}</br>
+    shipping_method{{selected.shipping_method}}</br>
+    state{{selected.state}}</br>
+    status{{selected.status}}</br>
+    zip_code{{selected.zip_code}}</br>
+  </p>
+  <template is="dom-repeat" items="{{orderItems}}">
+            <p>
+            Item ID: {{item.order_item_id}}</br></br>
+            Title: {{item.product_title}}</br></br>
+            Price: {{item.item_price}}</br></br>
+            Quantity: {{item.quantity}}</br></br>
+            Merchant SKU:  {{item.merchant_sku}}</br></br>
+            ================================
+            Add a print and address copy feature
+            </p>
+
+
+  </template>
+</div>
 <jetscape-navigation></jetscape-navigation>
 <div class="main">
   <div class="header">
@@ -148,7 +201,7 @@
         <div class="fixed-sku">{{item.order_id}}</div>
         <div class="fixed-status">{{item.status}}</div>
         <div class="fixed-small">{{item.order_date}}</div>
-        <div class="name">{{item.buyer_name}}{{item.address1}}{{item.address2}}</div>
+        <div class="name">{{item.buyer_name}}</div>
       </div>
 
 <template is="dom-if" if="{{showOrders}}">
@@ -170,7 +223,7 @@
         </button>
       </template> 
       <template is="dom-if" if="{{!_showAuth(item.status)}}">
-        <button class="grid-button" on-click="_shippingDetails">
+        <button class="grid-button" on-click="_refundDetails">
           Refund
           <paper-ripple></paper-ripple>
         </button>
@@ -190,6 +243,10 @@
           showOrders:{
             type:Boolean,
             value: true
+          },
+          modal:{
+            type: String,
+            value: 'hide-modal'
           },
           animationConfig: {
             value: function() {
@@ -218,6 +275,7 @@
       }
       _getOrderItem(e){
         const orderId = e.model.__data.item.order_id
+        this.selected = e.model.__data.item
         this.getParams2 = {jwttoken: localStorage.getItem("jwt"), orderId: orderId}
         this.$.ajax2.generateRequest();
       }
@@ -245,15 +303,22 @@
 
       _handleResponse(e) {
           this.orders = e.detail.response
-          console.log(e.detail.response)
           this._search()
       }
-
+      
       _handleResponse2(e) {
-          console.log(e.detail.response)
+        this.orderItems = e.detail.response.data
+        console.log(this.orderItems)
+        this.modal = 'show-modal'
+      }
+      _hideModal(){
+        this.modal = 'hide-modal'
       }
       _shippingDetails(e) {
           this.set('route.path','ship-order/'+e.model.item.order_id+'/')
+      }
+      _refundDetails(e) {
+          this.set('route.path','refund-order/'+e.model.item.order_id+'/')
       }
       _search(){
         if(this.search == undefined){

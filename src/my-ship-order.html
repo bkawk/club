@@ -15,13 +15,16 @@
 <dom-module id="my-ship-order">
   <template>
     <style include="shared-styles">
-      :host {
+    :host {
         display: block;
-      }
-      paper-dropdown-menu {
-            width: 200px;
-            margin-right: 20px;
-        }
+    }
+    .hidden-modal{
+        display:none
+    }
+    paper-dropdown-menu {
+        width: 200px;
+        margin-right: 20px;
+    }
     </style>
 
       <iron-ajax
@@ -120,8 +123,6 @@
         _updateMethod(e) {
             if (e.detail.value) {
                 var value = e.detail.value.innerHTML
-                console.log(value)
-
                 var arr1 = ["Fedex2Day", "FedExExpeditedFreight", "FedexExpressSaver", "FedexFirstOvernight", "FedexFreight", "FedExGround", "FedExHome", "FedexPriorityOvernight", "FedexSameDay", "FedExSmartPost", "FedExSmartPostReturns", "FedexStandardOvernight"]
                 var arr2 = ["UPS2ndDayAir", "UPS2ndDayAirAM", "UPS2ndDayAirFreight", "UPS2ndDayAirFreightNGS", "UPS3DayFreight", "UPS3DayFreightNGS", "UPS3DaySelect", "UPSExpressCritical", "UPSFreight", "UPSGround", "UPSGroundFreightPricing", "UPSHundredweightService", "UPSMailInnovations", "UPSNextDayAir", "UPSNextDayAirEarly", "UPSNextDayAirFreight", "UPSNextDayAirFreightNGS", "UPSNextDayAirSaver", "UPSStandard"]
                 var arr3 = ["OnTracDirectPost", "OnTracGround", "OnTracPalletizedFreight", "OnTracSaturdayDelivery", "OnTracSunrise", "OnTracSunriseGold"]
@@ -155,10 +156,8 @@
                         break;
                 }
             }
-            console.log(this.arr)   
         }
         _ship(e) {
-            console.log(localStorage.getItem("jwt"))
             this.putBody = {
                 orderid: this.routeData.page,
                 carrier: this.carrier,

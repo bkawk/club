@@ -101,14 +101,6 @@
           }
         };
       }
-    
-        ready(){
-          super.ready()
-          var jwt = localStorage.getItem('jwt')
-          if(jwt){
-            this.set('route.path', 'dashboard/'); 
-          }
-        }
         _handleResponse(e){
           if(e.detail.response.login == true){
             localStorage.setItem("jwt", e.detail.response.jwttoken);

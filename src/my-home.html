@@ -145,6 +145,7 @@
             super.ready()
             this.loading = true
             this.reveal = 'reveal'
+            this.jwt = localStorage.getItem("jwt")
         }
         _loaded(){
             if(this.$$("#videoz")){
@@ -152,11 +153,19 @@
             } 
         }
         _register(){
-            this.set('route.path', 'register/'); 
+            if(this.jwt){
+                this.set('route.path', 'dashboard/'); 
+            } else{
+                this.set('route.path', 'register/'); 
+            }
         } 
         _login(){
-            this.set('route.path', 'login/'); 
-        }
+            if(this.jwt){
+                this.set('route.path', 'dashboard/'); 
+            } else{
+                this.set('route.path', 'login/'); 
+            }
+        } 
         _mobile(){
             if(this.mobileScreen == true){
             this.buttonWidth = 'desktop-button-width'
