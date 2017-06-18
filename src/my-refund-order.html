@@ -1,43 +1,104 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-ripple/paper-ripple.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="shared-styles.html">
 <link rel="import" href="../bower_components/app-route/app-location.html">
 <link rel="import" href="../bower_components/app-route/app-route.html">
-<link rel="import" href="../bower_components/paper-input/paper-input.html">
-<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
-<link rel="import" href="../bower_components/neon-animation/web-animations.html">
-<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
-<link rel="import" href="../bower_components/paper-item/paper-item.html">
-<link rel="import" href="../bower_components/vaadin-date-picker/vaadin-date-picker.html">
-<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="components/jetscape-topnavigation.html">
 
 
 <dom-module id="my-refund-order">
   <template>
     <style include="shared-styles">
-    :host {
+      :host {
         display: block;
-    }
-    .hidden-modal{
-        display:none
-    }
-    paper-dropdown-menu {
-        width: 200px;
-        margin-right: 20px;
-    }
-    </style>
+        height: 100vh;
+      }
+      .info-boxes{
+        padding: 0px 18px 0px 18px;
+        @apply(--layout-horizontal);
+        @apply(--layout-wrap);
+      }
+    .info-box{
+        padding: 19px 0px 18px 0px;
+        width:33%;
+        font-size:14px;
+        line-height:1.8;
+        min-width:200px;
+      }
+      .top-button{
+        margin: 18px;
+        max-width: 200px;
+        padding: 0 36px 0 36px;
+        height: 40px;
+      }
+      .name{
+        min-width:40px;
+        width:40px;
+        white-space: nowrap; 
+        overflow: hidden; 
+        text-overflow:ellipsis;
+      }
+      .fixed-sku{
+        padding-right: 5px;
+        width: 40px;
+        max-width: 120px;
+        min-width: 40px;
+        white-space: nowrap; 
+        overflow: hidden; 
+        text-overflow:ellipsis;
+      }
+      .fixed-small {
+        padding-right: 60px;
+        max-width: 160px;
+        min-width: 160px;
+        white-space: nowrap; 
+        overflow: hidden; 
+        text-overflow:ellipsis;
+        }
+      .fixed-status{
+        padding-right: 5px;
+        max-width: 90px;
+        min-width: 90px;
+        min-width: 40px;
+        white-space: nowrap; 
+        overflow: hidden; 
+        text-overflow:ellipsis;
+      }
+      .blank{
+        width: 80px;
+        height: 38px;
+      }
+      .grid-line{
+        cursor: pointer;
+      }
+      .show-modal{
+        display:block;
+        position:fixed;
+        top:0px;
+        right:0px;
+        bottom:0px;
+        left:0px;
+        background-color: rgba(0,0,0, 0.6);
+        z-index: 1;
+        color: white;
+      }
 
-    <iron-ajax
-      id="ajax3"
-      method="GET"
-      url="https://api.jetscape.club/getOrderItem"
-      headers='{"Content-Type": "application/json"}' 
-      loading="{{loading}}"
-      handle-as="json"
-      params="{{getParams3}}"
-      on-response="_handleResponse3"
-      debounce-duration="300">
-    </iron-ajax>
+      .hide-modal{
+        display:none;
+      }
+      .page-body .center{
+        background-color: white;
+        background-image: url("../images/light-mesh.png");
+        color: black;
+        margin-top: 60px;
+        border-radius:3px;
+        height: 500px;
+        overflow:scroll;
+      }
+      
+    </style>
 
     <app-location route="{{route}}"></app-location>
     <app-route
@@ -46,19 +107,74 @@
         data="{{routeData}}"
         tail="{{subroute}}"></app-route>
 
-<jetscape-topnavigation class="noselect" logged-in loading="{{loading}}"></jetscape-topnavigation>
+    <iron-ajax
+      id="ajax2"
+      method="GET"
+      url="https://api.jetscape.club/getOrderItem"
+      headers='{"Content-Type": "application/json"}' 
+      loading="{{loading}}"
+      handle-as="json"
+      params="{{getParams2}}"
+      on-response="_handleResponse2"
+      debounce-duration="300">
+    </iron-ajax>
 
-      <div class="container" id="container">
-        <template is="dom-repeat" items="{{orderItems}}">
-            <p>
-            Item ID: {{item.order_item_id}}</br></br>
-            Title: {{item.product_title}}</br></br>
-            Price: {{item.item_price}}</br></br>
-            Quantity: {{item.quantity}}</br></br>
-            Merchant SKU:  {{item.merchant_sku}}</br></br>
-            ================================
-send to /rma as POST body
-<pre> 
+
+<jetscape-topnavigation class="noselect" logged-in loading="{{loading}}"></jetscape-topnavigation>
+<div class="main">
+  <div class="body">
+
+<template is="dom-if" if="{{selected.buyer_name}}">
+    <div class="info-boxes">
+        <div class="info-box">    
+            Name: {{selected.buyer_name}}</br>
+            Address: {{selected.address1}} {{selected.address2}}</br>
+            City: {{selected.city}}</br>
+            State: {{selected.state}}</br>
+            Zip: {{selected.zip_code}}</br>
+            Phone: {{selected.phone_number}}</br>   
+        </div>
+        <div class="info-box">
+            Status: {{selected.status}}</br>
+            Date: {{selected.order_date}}</br>
+            Order ID: {{selected.order_id}}</br>
+            Requested Carrier: {{selected.requested_carrier}}</br>
+            Ship By: {{selected.ship_by}}</br>
+            Shipping Method: {{selected.shipping_method}}</br> 
+        </div>
+        <div class="info-box">
+            Fulfillment Node: {{selected.fulfillment_node}}</br>
+            Jet Order ID: {{selected.jet_order_id}}</br>
+            Merchant ID: {{selected.merchant_id}}</br>
+        </div>
+    </div>
+</template>
+
+    
+    <div class="grid-area">
+      <div class="grid-title">
+        <div class="fixed-sku">Item ID<sup>o</sup></div>
+        <div class="fixed-status">Quantity</div>
+        <div class="fixed-small">Price</div>
+        <div class="name">Title</div>
+      </div>
+      <div class=" grid-blank">
+      </div>
+    </div>
+      
+    <template is="dom-repeat" items="{{orderItems}}">
+    <div class="grid-area">
+      <div class="grid-line">
+        <div class="fixed-sku">{{item.order_item_id}}</div>
+        <div class="fixed-status">{{item.quantity}}</div>
+        <div class="fixed-small">{{item.item_price}}</div>
+        <div class="name">{{item.product_title}}</div>
+      </div>
+
+    </div>
+    </template>
+</br></br>
+<pre>
 {
   jwttoken = jwttoken,
   orderId = orderId,
@@ -67,34 +183,16 @@ send to /rma as POST body
     {order_item_id:order_item_id, returned_quantity:quantity, refund quantity: price, tax_concessions: tax_concessions, shipping_concessions:shipping_concessions},
   ]
 }
-</pre> 
-            </p>
-        </template>
-      </div>
+</pre>
   </template>
 
   <script>
-    class MyRefundOrder extends Polymer.Element {
-        static get is() { return 'my-refund-order'; }
-        static get properties() {
-          return {
-            mobileScreen: {
-              type: String,
-              observer: '_mobile'
-            },
-            loading:{
-              type: Boolean,
-              value: false
-            },
-            putBody:{
-              type:Object,
-              value:{foo:"bar"}
-            },
-            buttonWidth:{
-              type: String,
-              value:'mobile-button-width'
-            },
-            animationConfig: {
+    class myRefundOrder extends Polymer.mixinBehaviors([Polymer.NeonAnimationRunnerBehavior, Polymer.NeonAnimatableBehavior], Polymer.Element) {
+      static get is() { return 'my-refund-order'; }
+    
+      static get properties() {
+        return {
+          animationConfig: {
             value: function() {
               return {
                 'entry': {
@@ -112,25 +210,24 @@ send to /rma as POST body
               }
             }
           }
-          };
-        }
-
-    ready(){
-        super.ready()
+        };
+      }
+      
+      connectedCallback(){
+        super.connectedCallback();
+        this._getOrderItem()
+      }
+      _getOrderItem(e){
         const orderId = this.routeData.page
-        this.getParams3 = {jwttoken: localStorage.getItem("jwt"), orderId: orderId}
-        this.$.ajax3.generateRequest();
-    }
-      _handleResponse3(e) {
-        this.orderItems = e.detail.response.data
-        console.log(this.orderItems)
+        this.getParams2 = {jwttoken: localStorage.getItem("jwt"), orderId: orderId}
+        this.$.ajax2.generateRequest();
       }
 
-    } window.customElements.define(MyRefundOrder.is, MyRefundOrder);
-
-
+      _handleResponse2(e) {
+        this.orderItems = e.detail.response.data
+        this.selected = e.detail.response.data[0]
+      }
+    
+    } window.customElements.define(myRefundOrder.is, myRefundOrder);
   </script>
 </dom-module>
-
-
-

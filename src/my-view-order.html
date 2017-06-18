@@ -15,11 +15,17 @@
         display: block;
         height: 100vh;
       }
-
-      .header{
-        height: 120px;
+      .info-boxes{
+        padding: 0px 18px 0px 18px;
         @apply(--layout-horizontal);
-        @apply(--layout-end-justified);
+        @apply(--layout-wrap);
+      }
+    .info-box{
+        padding: 19px 0px 18px 0px;
+        width:33%;
+        font-size:14px;
+        line-height:1.8;
+        min-width:200px;
       }
       .top-button{
         margin: 18px;
@@ -118,27 +124,32 @@
 <div class="main">
   <div class="body">
 
+<template is="dom-if" if="{{selected.buyer_name}}">
+    <div class="info-boxes">
+        <div class="info-box">    
+            Name: {{selected.buyer_name}}</br>
+            Address: {{selected.address1}} {{selected.address2}}</br>
+            City: {{selected.city}}</br>
+            State: {{selected.state}}</br>
+            Zip: {{selected.zip_code}}</br>
+            Phone: {{selected.phone_number}}</br>   
+        </div>
+        <div class="info-box">
+            Status: {{selected.status}}</br>
+            Date: {{selected.order_date}}</br>
+            Order ID: {{selected.order_id}}</br>
+            Requested Carrier: {{selected.requested_carrier}}</br>
+            Ship By: {{selected.ship_by}}</br>
+            Shipping Method: {{selected.shipping_method}}</br> 
+        </div>
+        <div class="info-box">
+            Fulfillment Node: {{selected.fulfillment_node}}</br>
+            Jet Order ID: {{selected.jet_order_id}}</br>
+            Merchant ID: {{selected.merchant_id}}</br>
+        </div>
+    </div>
+</template>
 
-  <p> 
-    Buyer Name: {{selected.buyer_name}}</br>
-    Address: {{selected.address1}}, {{selected.address2}}</br>
-    City: {{selected.city}}</br>
-    State: {{selected.state}}</br>
-    Zip: {{selected.zip_code}}</br>
-    Phone: {{selected.phone_number}}</br>
-    Date: {{selected.order_date}}</br>
-    status: {{selected.status}}</br></br>
-    
-    order_id: {{selected.order_id}}</br>
-    requested_carrier: {{selected.requested_carrier}}</br>
-    ship_by: {{selected.ship_by}}</br>
-    shipping_method: {{selected.shipping_method}}</br></br>
-
-    fulfillment_node{{selected.fulfillment_node}}</br>
-    jet_order_id: {{selected.jet_order_id}}</br>
-    merchant_id: {{selected.merchant_id}}</br>
-    
-  </p>
     
     <div class="grid-area">
       <div class="grid-title">
@@ -153,7 +164,7 @@
       
     <template is="dom-repeat" items="{{orderItems}}">
     <div class="grid-area">
-      <div class="grid-line" on-click="_getOrderItem">
+      <div class="grid-line">
         <div class="fixed-sku">{{item.order_item_id}}</div>
         <div class="fixed-status">{{item.quantity}}</div>
         <div class="fixed-small">{{item.item_price}}</div>
@@ -162,7 +173,7 @@
 
     </div>
     </template>
-    </br></br>
+</br></br>
   </template>
 
   <script>
