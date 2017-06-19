@@ -1,4 +1,8 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-ripple/paper-ripple.html">
+<link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="components/jetscape-topnavigation.html">
 <link rel="import" href="shared-styles.html">
 
 <dom-module id="my-add-inventory">
@@ -6,22 +10,124 @@
     <style include="shared-styles">
       :host {
         display: block;
+        height: 100vh;
+        @apply(--layout-horizontal);
+        @apply(--layout-wrap);
+      }
+      .main{
+        @apply(--layout-flex);
+        min-width: 200px;
+      }
+
+      .top-button{
+        margin: 18px;
+        max-width: 200px;
+        padding: 0 36px 0 36px;
+        height: 40px;
+        margin-left: 0px;
       }
     </style>
 
-    <div class="card">
-      <div class="circle">3</div>
-      <h1>View Three</h1>
-      <p>Modus commodo minimum eum te, vero utinam assueverit per eu.</p>
-      <p>Ea duis bonorum nec, falli paulo aliquid ei eum.Has at minim mucius aliquam, est id tempor laoreet.Pro saepe pertinax ei, ad pri animal labores suscipiantur.</p>
+    <iron-ajax
+      id="ajax"
+      method="PUT"
+      url="https://api.jetscape.club/add-inventory/"
+      headers='{"Content-Type": "application/json"}' 
+      loading="{{loading}}"
+      handle-as="json"
+      body="{{postBody}}"
+      on-response="_handleResponse"
+      debounce-duration="300">
+    </iron-ajax>
+    
+<jetscape-topnavigation class="noselect topnav" logged-in></jetscape-topnavigation>
+<app-location route="{{route}}"></app-location>
+<div class="main">
+  <div class="body">
+      <div class="container" id="container">
+
+      <paper-input label="SKU" value="{{sku}}" class="noselect"></paper-input>
+      <paper-input label="Product Title" value="{{product_title}}" class="noselect"></paper-input>
+      <paper-input label="Pack Quantity" value="{{pack_quantity}}" class="noselect"></paper-input>
+      <paper-input label="Brand" value="{{brand}}" class="noselect"></paper-input>
+      <paper-input label="Image URL" value="{{image_url}}" class="noselect"></paper-input>
+      <paper-input label="UPC Code" value="{{upc_code}}" class="noselect"></paper-input>
+      <paper-input label="Product Description" value="{{product_description}}" class="noselect"></paper-input>
+      <paper-input label="Shipping Weight" value="{{shipping_weight}}" class="noselect"></paper-input>
+      <paper-input label="Manufacturer" value="{{manufacturer}}" class="noselect"></paper-input>
+      <paper-input label="Manufacturers Part Number" value="{{manufacturers_part_number}}" class="noselect"></paper-input>
+      <paper-input label="Bullet 1" value="{{bullet1}}" class="noselect"></paper-input>
+      <paper-input label="Bullet 2" value="{{bullet2}}" class="noselect"></paper-input>
+      <paper-input label="Bullet 3" value="{{bullet3}}" class="noselect"></paper-input>
+      <paper-input label="Bullet 4" value="{{bullet4}}" class="noselect"></paper-input>
+      <paper-input label="Bullet 5" value="{{bullet5}}" class="noselect"></paper-input>
+
+      <p class="error noselect">{{error}}</p>
+      <button type="button" class$="big-button noselect {{buttonWidth}}" on-click="_addInventory">
+        Save <paper-spinner-lite active></paper-spinner-lite>
+        <paper-ripple></paper-ripple>
+      </button>
+
     </div>
+
+
+  </div>
+</div>
   </template>
 
   <script>
-    class MyAddInventory extends Polymer.Element {
+    class MyAddInventory extends Polymer.mixinBehaviors([Polymer.NeonAnimationRunnerBehavior, Polymer.NeonAnimatableBehavior], Polymer.Element) {
       static get is() { return 'my-add-inventory'; }
+    
+      static get properties() {
+        return {
+          postBody:{
+            type:Object,
+            value:{foo:"bar"}
+          },
+          animationConfig: {
+            value: function() {
+              return {
+                'entry': {
+                  name: 'fade-in-animation',
+                  node: this,
+                  nodeDelay: 300,
+                  timing:{duration:300}
+                },
+                'exit': {
+                  name: 'fade-out-animation',
+                  node: this,
+                  nodeDelay: 300,
+                  timing:{duration:300}
+                }
+              }
+            }
+          }
+        };
+      }
+
+    _addInventory(){
+      localStorage.removeItem('jwt');
+      this.postBody = {
+        product_title: this.product_title, 
+        pack_quantity: this.pack_quantity,
+        brand: this.brand,
+        image_url: this.image_url,
+        upc_code: this.upc_code,
+        product_description: this.product_description,
+        manufacturer: this.manufacturer,
+        manufacturers_part_number: this.manufacturers_part_number,
+        bullet1: this.bullet1,
+        bullet2: this.bullet2,
+        bullet3: this.bullet3,
+        bullet4: this.bullet4,
+        bullet5: this.bullet5,
+      }
+      this.$.ajax.generateRequest();
+      this.product_title = this.pack_quantity = this.brand = this.image_url = this.upc_code = this.product_description = this.manufacturer = this.manufacturers_part_number = this.bullet1 = this.bullet2 = this.bullet3 = this.bullet4 = this.bullet5 = ""
+      this.set('route.path', 'inventory/'); 
     }
 
-    window.customElements.define(MyAddInventory.is, MyAddInventory);
+    } window.customElements.define(MyAddInventory.is, MyAddInventory);
   </script>
 </dom-module>
