@@ -182,6 +182,10 @@
     
       static get properties() {
         return {
+          routeData:{
+            type: String,
+            observer: '_getOrderItem'
+          },
           animationConfig: {
             value: function() {
               return {
@@ -203,12 +207,10 @@
         };
       }
       
-      connectedCallback(){
-        super.connectedCallback();
-        this._getOrderItem()
-      }
-      _getOrderItem(e){
+      _getOrderItem(){
+        this.selected = ""
         const orderId = this.routeData.page
+        console.log(orderId);
         this.getParams2 = {jwttoken: localStorage.getItem("jwt"), orderId: orderId}
         this.$.ajax2.generateRequest();
       }

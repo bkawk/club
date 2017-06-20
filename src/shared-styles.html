@@ -12,7 +12,8 @@
       --little-button-color: #A6A6A6;
       --heading-color: #828282;
       --paper-input-color: #6d6d6d;
-      --header-background-color: rgba(65,69,255,0.1);;
+      --header-background-color: rgba(65,69,255,0.1);
+      --blue-text:#43b6ff;
     }
     h2{
       color: var(--heading-color);
@@ -30,13 +31,15 @@
       box-shadow: 0 2px 4px 0 rgba(0,0,0,0.05);
     }
     paper-input{
-      margin-bottom: 20px;
+      margin-bottom: 0px;
       --paper-input-container-underline: { border-bottom: 1px solid var(--paper-input-color); }
-      --paper-input-container-underline-focus: { color: var(--paper-input-color) }
+      --paper-input-container-underline-focus: {  border-bottom: 2px solid var(--blue-text);  }
       --paper-input-container-input-color: var(--paper-input-color);
-      --paper-input-container-input: { font-size: 21px; font-weight:1; color: black }
+      --paper-input-container-input: { font-size: 15px; font-weight:400; color: black }
       --paper-input-container-color: var(--paper-input-color);
       --paper-input-container-focus-color: var(--paper-input-color);
+      --paper-input-container-label:{font-size: 12px; font-weight:100; color: black; font-style: italic;}
+      
     }
     jetscape-topnavigation{
       position: fixed;

@@ -190,7 +190,7 @@
       
     <template is="dom-repeat" items="{{results}}">
     <div class="grid-area">
-      <div class="grid-line" on-click="_getOrderItem">
+      <div class="grid-line" on-click="_viewOrder">
         <div class="fixed-sku">{{item.order_id}}</div>
         <div class="fixed-status">{{item.status}}</div>
         <div class="fixed-small">{{item.order_date}}</div>
@@ -248,12 +248,7 @@
         super.connectedCallback();
         this._getOrders()
       }
-      _getOrderItem(e){
-        const orderId = e.model.__data.item.order_id
-        this.selected = e.model.__data.item
-        this.getParams2 = {jwttoken: localStorage.getItem("jwt"), orderId: orderId}
-        this.$.ajax2.generateRequest();
-      }
+
       _showAuth(status){
         if(status == "complete"){
           return false
@@ -262,10 +257,8 @@
         }
       }
       _getOrders(){
-        //setInterval(()=>{ 
             this.getParams = {jwttoken: localStorage.getItem("jwt"), request: "returns"}
             this.$.ajax.generateRequest();
-        //}, 3000);
       }
 
       _handleResponse(e) {
@@ -273,16 +266,8 @@
           this._search()
       }
       
-      _handleResponse2(e) {
-        this.orderItems = e.detail.response.data
-        console.log(this.orderItems)
-        this.modal = 'show-modal'
-      }
-      _hideModal(){
-        this.modal = 'hide-modal'
-      }
-      _shippingDetails(e) {
-          this.set('route.path','ship-order/'+e.model.item.order_id+'/')
+      _viewOrder(e) {
+          this.set('route.path','view-order/'+ e.model.__data.item.order_id +'/')
       }
       _refundDetails(e) {
           this.set('route.path','refund-order/'+e.model.item.order_id+'/')

@@ -97,7 +97,6 @@
         height: 500px;
         overflow:scroll;
       }
-      
     </style>
 
     <app-location route="{{route}}"></app-location>
@@ -170,20 +169,16 @@
         <div class="fixed-small">{{item.item_price}}</div>
         <div class="name">{{item.product_title}}</div>
       </div>
-
     </div>
+          <div class="form">
+          <paper-input label="Returned Quantity" id="returned_quantity_{{index}}" class="noselect" on-keyup="_getDetails"></paper-input>
+          <paper-input label="Refund Quantity" id="refund_quantity_{{index}}" class="noselect" on-keyup="_getDetails"></paper-input>
+          <paper-input label="Tax Concessions" id="tax_concessions_{{index}}" class="noselect" on-keyup="_getDetails"></paper-input>
+          <paper-input label="Shipping Concessions" id="shipping_concessions_{{index}}" class="noselect" on-keyup="_getDetails"></paper-input>
+      </div>
     </template>
 </br></br>
-<pre>
-{
-  jwttoken = jwttoken,
-  orderId = orderId,
-  items = [
-    {order_item_id:order_item_id, returned_quantity:quantity, refund quantity: price, tax_concessions: tax_concessions, shipping_concessions:shipping_concessions},
-    {order_item_id:order_item_id, returned_quantity:quantity, refund quantity: price, tax_concessions: tax_concessions, shipping_concessions:shipping_concessions},
-  ]
-}
-</pre>
+
   </template>
 
   <script>
@@ -192,6 +187,10 @@
     
       static get properties() {
         return {
+          routeData:{
+            type: String,
+            observer:'_getOrderItem'
+          },
           animationConfig: {
             value: function() {
               return {
@@ -213,10 +212,6 @@
         };
       }
       
-      connectedCallback(){
-        super.connectedCallback();
-        this._getOrderItem()
-      }
       _getOrderItem(e){
         const orderId = this.routeData.page
         this.getParams2 = {jwttoken: localStorage.getItem("jwt"), orderId: orderId}
@@ -226,6 +221,19 @@
       _handleResponse2(e) {
         this.orderItems = e.detail.response.data
         this.selected = e.detail.response.data[0]
+      }
+
+      _getDetails(){
+        let i
+        let refunds = []
+        for (i = 0; i <  this.orderItems.length; i++) {
+          this.orderItems[i].returned_quantity = this.$$('#returned_quantity_'+i).__data.value
+          this.orderItems[i].refund_quantity = this.$$('#refund_quantity_'+i).__data.value
+          this.orderItems[i].tax_concessions = this.$$('#tax_concessions_'+i).__data.value
+          this.orderItems[i].shipping_concessions = this.$$('#shipping_concessions_'+i).__data.value
+          refunds.push(this.orderItems[i])
+        }
+        console.log(refunds)
       }
     
     } window.customElements.define(myRefundOrder.is, myRefundOrder);
