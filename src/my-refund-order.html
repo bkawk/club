@@ -97,6 +97,11 @@
         height: 500px;
         overflow:scroll;
       }
+      .form,
+      .little-button {
+        margin-right:35px;
+        margin-left:25px;
+      }
     </style>
 
     <app-location route="{{route}}"></app-location>
@@ -171,13 +176,17 @@
       </div>
     </div>
           <div class="form">
-          <paper-input label="Returned Quantity" id="returned_quantity_{{index}}" class="noselect" on-keyup="_getDetails"></paper-input>
-          <paper-input label="Refund Quantity" id="refund_quantity_{{index}}" class="noselect" on-keyup="_getDetails"></paper-input>
-          <paper-input label="Tax Concessions" id="tax_concessions_{{index}}" class="noselect" on-keyup="_getDetails"></paper-input>
-          <paper-input label="Shipping Concessions" id="shipping_concessions_{{index}}" class="noselect" on-keyup="_getDetails"></paper-input>
+          <paper-input label="Returned Quantity" id="returned_quantity_{{index}}" class="noselect"></paper-input>
+          <paper-input label="Refund Quantity" id="refund_quantity_{{index}}" class="noselect"></paper-input>
+          <paper-input label="Tax Concessions" id="tax_concessions_{{index}}" class="noselect"></paper-input>
+          <paper-input label="Shipping Concessions" id="shipping_concessions_{{index}}" class="noselect"></paper-input>
       </div>
     </template>
-</br></br>
+
+      <button type="button" class="little-button noselect" on-click="_getDetails">
+        Refund <paper-ripple></paper-ripple>
+      </button>
+      </br></br>
 
   </template>
 
