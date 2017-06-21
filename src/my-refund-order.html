@@ -112,14 +112,14 @@
         tail="{{subroute}}"></app-route>
 
     <iron-ajax
-      id="ajax2"
-      method="GET"
-      url="https://api.jetscape.club/getOrderItem"
+      id="ajax"
+      method="POST"
+      url="https://api.jetscape.club/avs"
       headers='{"Content-Type": "application/json"}' 
       loading="{{loading}}"
       handle-as="json"
-      params="{{getParams2}}"
-      on-response="_handleResponse2"
+      body="{{postBody}}"
+      on-response="_handleResponse"
       debounce-duration="300">
     </iron-ajax>
 
@@ -183,7 +183,7 @@
       </div>
     </template>
 
-      <button type="button" class="little-button noselect" on-click="_getDetails">
+      <button type="button" class="little-button noselect" on-click="_sendRefund">
         Refund <paper-ripple></paper-ripple>
       </button>
       </br></br>
@@ -227,7 +227,7 @@
         this.$.ajax2.generateRequest();
       }
 
-      _handleResponse2(e) {
+      _handleResponse(e) {
         this.orderItems = e.detail.response.data
         this.selected = e.detail.response.data[0]
       }
@@ -242,7 +242,15 @@
           this.orderItems[i].shipping_concessions = this.$$('#shipping_concessions_'+i).__data.value
           refunds.push(this.orderItems[i])
         }
-        console.log(refunds)
+        this.refundDetails = refunds
+      }
+
+      _sendRefund(){
+        this.postBody = {
+          jwttoken: localStorage.getItem("jwt"),
+          refunds: this.refundDetails, 
+        }
+        this.$.ajax.generateRequest();
       }
     
     } window.customElements.define(myRefundOrder.is, myRefundOrder);
