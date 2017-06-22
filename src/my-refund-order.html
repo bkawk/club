@@ -2,11 +2,14 @@
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../bower_components/paper-ripple/paper-ripple.html">
 <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
-<link rel="import" href="shared-styles.html">
 <link rel="import" href="../bower_components/app-route/app-location.html">
 <link rel="import" href="../bower_components/app-route/app-route.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../bower_components/neon-animation/web-animations.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
 <link rel="import" href="components/jetscape-topnavigation.html">
-
+<link rel="import" href="shared-styles.html">
 
 <dom-module id="my-refund-order">
   <template>
@@ -112,13 +115,25 @@
         tail="{{subroute}}"></app-route>
 
     <iron-ajax
-      id="ajax2"
+      id="ajax"
       method="GET"
       url="https://api.jetscape.club/getOrderItem"
       headers='{"Content-Type": "application/json"}' 
       loading="{{loading}}"
       handle-as="json"
-      params="{{getParams2}}"
+      params="{{getParams}}"
+      on-response="_handleResponse"
+      debounce-duration="300">
+    </iron-ajax>
+
+    <iron-ajax
+      id="ajax2"
+      method="POST"
+      url="https://api.jetscape.club/refund-order"
+      headers='{"Content-Type": "application/json"}' 
+      loading="{{loading}}"
+      handle-as="json"
+      body="{{bodyParams}}"
       on-response="_handleResponse2"
       debounce-duration="300">
     </iron-ajax>
@@ -179,11 +194,20 @@
           <paper-input label="Returned Quantity" id="returned_quantity_{{index}}" class="noselect"></paper-input>
           <paper-input label="Refund Quantity" id="refund_quantity_{{index}}" class="noselect"></paper-input>
           <paper-input label="Tax Concessions" id="tax_concessions_{{index}}" class="noselect"></paper-input>
+          <paper-dropdown-menu label="Return Refund Feedback" id="return_refund_feedback_{{index}}">
+              <paper-listbox slot="dropdown-content" selected="0">
+                  <paper-item>customer opened item</paper-item>
+                  <paper-item>not shipped in original packaging</paper-item>
+                  <paper-item>item damaged</paper-item>
+                  <paper-item>general adjustment - notes required</paper-item>
+                  <paper-item>other</paper-item>
+              </paper-listbox>
+          </paper-dropdown-menu>
           <paper-input label="Shipping Concessions" id="shipping_concessions_{{index}}" class="noselect"></paper-input>
       </div>
     </template>
 
-      <button type="button" class="little-button noselect" on-click="_getDetails">
+      <button type="button" class="little-button noselect" on-click="_postReturns">
         Refund <paper-ripple></paper-ripple>
       </button>
       </br></br>
@@ -223,26 +247,39 @@
       
       _getOrderItem(e){
         const orderId = this.routeData.page
-        this.getParams2 = {jwttoken: localStorage.getItem("jwt"), orderId: orderId}
-        this.$.ajax2.generateRequest();
+        this.getParams = {jwttoken: localStorage.getItem("jwt"), orderId: orderId}
+        this.$.ajax.generateRequest();
       }
 
-      _handleResponse2(e) {
+      _handleResponse(e) {
         this.orderItems = e.detail.response.data
         this.selected = e.detail.response.data[0]
       }
 
-      _getDetails(){
+      _postReturns(){
         let i
         let refunds = []
         for (i = 0; i <  this.orderItems.length; i++) {
           this.orderItems[i].returned_quantity = this.$$('#returned_quantity_'+i).__data.value
           this.orderItems[i].refund_quantity = this.$$('#refund_quantity_'+i).__data.value
           this.orderItems[i].tax_concessions = this.$$('#tax_concessions_'+i).__data.value
+          this.orderItems[i].return_refund_feedback = this.$$('#return_refund_feedback_'+i).__data.value
           this.orderItems[i].shipping_concessions = this.$$('#shipping_concessions_'+i).__data.value
           refunds.push(this.orderItems[i])
         }
-        console.log(refunds)
+        
+        this.bodyParams = {jwttoken: localStorage.getItem("jwt"), refunds: refunds}
+        this.$.ajax2.generateRequest();
+        console.log(this.bodyParams)
+      }
+
+      _handleResponse2(e) {
+        console.log(e.detail.response.data)
+        if(e.detail.response.data === true){
+          this.set('route.path','returns/')
+        } else { 
+          console.log('No Response....')
+        }
       }
     
     } window.customElements.define(myRefundOrder.is, myRefundOrder);
