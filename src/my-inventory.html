@@ -148,10 +148,10 @@
         this.set('route.path', 'add-inventory/'); 
       }
       _getInventory(e){
-        this.getParams2 = {jwttoken: localStorage.getItem("jwt")}
+        this.getParams = {jwttoken: localStorage.getItem("jwt")}
         this.$.ajax.generateRequest();
       }
-      _handleResponse(){
+      _handleResponse(e){
         this.inventory = e.detail.response
       }
       _editInventory(){
