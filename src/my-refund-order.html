@@ -206,7 +206,7 @@
           <paper-input label="Shipping Concessions" id="shipping_concessions_{{index}}" class="noselect"></paper-input>
       </div>
     </template>
-
+      <p>{{error}}</p>
       <button type="button" class="little-button noselect" on-click="_postReturns">
         Refund <paper-ripple></paper-ripple>
       </button>
@@ -274,11 +274,10 @@
       }
 
       _handleResponse2(e) {
-        console.log(e.detail.response.data)
-        if(e.detail.response.data === true){
+        if(e.detail.response.statusCode === 204){
           this.set('route.path','returns/')
         } else { 
-          console.log('No Response....')
+          this.error = e.detail.response.body.errors[0];
         }
       }
     

@@ -2,6 +2,7 @@
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../bower_components/paper-ripple/paper-ripple.html">
 <link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="components/jetscape-topnavigation.html">
 <link rel="import" href="shared-styles.html">
 
@@ -30,8 +31,8 @@
 
     <iron-ajax
       id="ajax"
-      method="PUT"
-      url="https://api.jetscape.club/add-inventory/"
+      method="POST"
+      url="https://api.jetscape.club/add-inventory"
       headers='{"Content-Type": "application/json"}' 
       loading="{{loading}}"
       handle-as="json"
@@ -107,7 +108,6 @@
       }
 
     _addInventory(){
-      localStorage.removeItem('jwt');
       this.postBody = {
         product_title: this.product_title, 
         pack_quantity: this.pack_quantity,
@@ -122,8 +122,13 @@
         bullet3: this.bullet3,
         bullet4: this.bullet4,
         bullet5: this.bullet5,
+        jwttoken: localStorage.getItem("jwt")
       }
       this.$.ajax.generateRequest();
+    }
+
+    _handleResponse(e){
+      console.log(e.detail.response)
       this.product_title = this.pack_quantity = this.brand = this.image_url = this.upc_code = this.product_description = this.manufacturer = this.manufacturers_part_number = this.bullet1 = this.bullet2 = this.bullet3 = this.bullet4 = this.bullet5 = ""
       this.set('route.path', 'inventory/'); 
     }

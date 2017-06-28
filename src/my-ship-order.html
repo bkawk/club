@@ -177,6 +177,18 @@
                 this.error = "Something is missing."
             }
         }
+
+        _handleResponse(e){
+            console.log(e.detail.response)
+            if(e.detail.response.statusCode === 204){
+                this.error = this.putBody = this.trackingNumber = this.shipDate = this.estimatedDelivery = null;
+                this.set('route.path','orders/')
+            } else {
+                // TODO: loop and sohow all errors to DOM
+                this.error = e.detail.response.body.errors[0];
+                console.log(this.error)
+            }
+        }
     } window.customElements.define(MyShipOrder.is, MyShipOrder);
 
 

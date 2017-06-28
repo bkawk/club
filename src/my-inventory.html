@@ -98,10 +98,10 @@
 <template is="dom-repeat" items="{{inventory}}">
     <div class="grid-area">
       <div class="grid-line">
-        <div class="fixed-sku">491302842324864</div>
-        <div class="fixed-small">1280</div>
-        <div class="fixed-small">$34.00</div>
-        <div class="name">Name is really too long to fit on this line</div>
+        <div class="fixed-sku">{{item.merchant_sku}}</div>
+        <div class="fixed-small">{{item.quantity}}</div>
+        <div class="fixed-small">{{item.price}}</div>
+        <div class="name">{{item.product_title}}</div>
       </div>
       <button class="grid-button" on-click="_editInventory">
         Edit
@@ -152,6 +152,7 @@
         this.$.ajax.generateRequest();
       }
       _handleResponse(e){
+        console.log(e)
         this.inventory = e.detail.response
       }
       _editInventory(){
